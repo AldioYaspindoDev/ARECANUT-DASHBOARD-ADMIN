@@ -1,0 +1,43 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import AdminLayout from './components/layout/AdminLayout';
+import ProtectedRoute from './routes/ProtectedRoute';
+import Login from './pages/Autentikasi/login';
+import Blogs from './pages/Blog/Blog';
+
+// pages
+import Dashboard from './pages/Dashboard/Dashboard';
+import Users from './pages/Users/Users';
+import Products from './pages/Products/Products';
+import History from './pages/History/History';
+import Prices from './pages/Prices/Prices';
+import Settings from './pages/Settings/Settings';
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        {/* Protected Admin Dashboard and Sub-pages */}
+        <Route
+          path="/*"
+          element={
+            <ProtectedRoute>
+              <AdminLayout>
+                <Routes>
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/users" element={<Users />} />
+                  <Route path="/pinang-data" element={<Products />} />
+                  <Route path="/history" element={<History />} />
+                  <Route path="/articles" element={<Blogs />} />
+                  <Route path="/prices" element={<Prices />} />
+                  <Route path="/settings" element={<Settings />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </AdminLayout>
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+}
