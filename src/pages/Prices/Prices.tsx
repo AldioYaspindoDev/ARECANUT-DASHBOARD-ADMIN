@@ -1,9 +1,35 @@
+import { useEffect, useState } from "react";
+import { HargaService } from "../../services/hargaService";
+import type { Harga } from "../../interface/Harga";
 export default function Prices() {
-  const pricesList = [
-    { grade: 'Grade A', bgGrade: 'bg-emerald-500 text-white', price: 'Rp 15.500', note: 'Kualitas super, biji utuh, kadar air < 5%', updated: 'Hari ini, 08:00 WIB' },
-    { grade: 'Grade B', bgGrade: 'bg-amber-500 text-white', price: 'Rp 12.000', note: 'Kualitas menengah, sedikit pecahan, kadar air 5-10%', updated: 'Kemarin, 14:30 WIB' },
-    { grade: 'Grade C', bgGrade: 'bg-red-500 text-white', price: 'Rp 8.500', note: 'Kualitas rendah, banyak pecahan/jamur, kadar air > 10%', updated: '3 hari lalu' },
-  ];
+  const getBgGradeClass = (grade: string) => {
+    const normalized = grade.toLowerCase();
+    if (normalized.includes('a')) return 'bg-emerald-500 text-white';
+    if (normalized.includes('b')) return 'bg-amber-500 text-white';
+    if (normalized.includes('c')) return 'bg-red-500 text-white';
+    return 'bg-zinc-500 text-white';
+  };
+
+  const[harga, setHarga] = useState<Harga[]>([]);
+  const[loading, setLoading] = useState(false);
+
+  useEffect(()=>{
+    const getHarga = async () => {
+      try {
+          const response = await HargaService.GetAllHarga();
+          setHarga(response);
+      } catch (error) {
+        console.error("gagal mengambil dara harga", error);
+      } finally {
+        setLoading(false)
+      }
+    };
+    getHarga();
+  }, []);
+
+  if(loading){
+    return <p>Loading ... ... ... ... ....</p>
+  }
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -21,20 +47,20 @@ export default function Prices() {
 
       {/* Grid of Current Prices */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {pricesList.map((item) => (
-          <div key={item.grade} className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-4 relative overflow-hidden">
+        {harga.map((Harga) => (
+          <div key={Harga.grade} className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-4 relative overflow-hidden">
             <div className="flex justify-between items-center">
-              <span className={`px-2.5 py-1 rounded text-xs font-semibold ${item.bgGrade}`}>
-                {item.grade}
+              <span className={`px-2.5 py-1 rounded text-xs font-semibold ${getBgGradeClass(Harga.grade)}`}>
+                {Harga.grade}
               </span>
             </div>
             <div className="flex flex-col gap-1">
               <span className="text-neutral-500 text-[10px] font-bold uppercase tracking-wider">HARGA ACUAN SAAT INI</span>
               <div className="flex items-baseline gap-1">
-                <span className="text-zinc-900 text-3xl font-bold font-['Inter'] leading-9">{item.price}</span>
+                <span className="text-zinc-900 text-3xl font-bold font-['Inter'] leading-9">{Harga.harga}</span>
                 <span className="text-neutral-500 text-sm">/ kg</span>
               </div>
-              <span className="text-neutral-500 text-[11px] mt-2">Terakhir diperbarui: {item.updated}</span>
+              <span className="text-neutral-500 text-[11px] mt-2">Terakhir diperbarui: {Harga.created_at}</span>
             </div>
           </div>
         ))}
@@ -66,16 +92,16 @@ export default function Prices() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
-              {pricesList.map((item) => (
-                <tr key={item.grade} className="hover:bg-zinc-50/50 transition-colors">
+              {harga.map((Harga) => (
+                <tr key={Harga.grade} className="hover:bg-zinc-50/50 transition-colors">
                   <td className="px-6 py-4">
-                    <span className={`px-2.5 py-1 rounded text-xs font-semibold ${item.bgGrade}`}>
-                      {item.grade}
+                    <span className={`px-2.5 py-1 rounded text-xs font-semibold ${getBgGradeClass(Harga.grade)}`}>
+                      {Harga.grade}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-zinc-900 text-sm font-semibold">{item.price}</td>
-                  <td className="px-6 py-4 text-neutral-600 text-sm">{item.note}</td>
-                  <td className="px-6 py-4 text-neutral-600 text-sm">{item.updated}</td>
+                  <td className="px-6 py-4 text-zinc-900 text-sm font-semibold">{Harga.harga}</td>
+                  <td className="px-6 py-4 text-neutral-600 text-sm">{Harga.keterangan}</td>
+                  <td className="px-6 py-4 text-neutral-600 text-sm">{Harga.updated_at}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="inline-flex items-center gap-2">
                       <button className="p-1.5 bg-zinc-100 hover:bg-zinc-200 text-neutral-700 rounded-md transition-colors text-xs font-medium">Edit</button>

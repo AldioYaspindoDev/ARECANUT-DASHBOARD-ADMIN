@@ -1,10 +1,35 @@
+import { useEffect, useState } from "react";
+import type { Article } from "../../interface/Article";
+import { ArticleService } from "../../services/articleService";
+import { API_BASE_URL } from "../../utils/constants";
+
 export default function Blogs() {
-  const articles = [
-    { id: 'ART-0042', title: 'Panduan Lengkap Budidaya Pinang Unggul', status: 'Dipublikasikan', bgStatus: 'bg-emerald-100 text-emerald-800', author: 'Budi Santoso', date: '12 Okt 2023', img: 'https://placehold.co/24x24' },
-    { id: 'ART-0041', title: 'Manajemen Pasca Panen: Menjaga Kualitas Grade A', status: 'Dipublikasikan', bgStatus: 'bg-emerald-100 text-emerald-800', author: 'Siti Aminah', date: '08 Okt 2023', img: 'https://placehold.co/24x24' },
-    { id: 'ART-0040', title: 'Mengenal Penyakit Umum pada Tanaman Pinang', status: 'Draft', bgStatus: 'bg-amber-100 text-amber-800', author: 'Budi Santoso', date: '-', img: 'https://placehold.co/24x24' },
-    { id: 'ART-0039', title: 'Teknologi AI dalam Klasifikasi Mutu Pinang', status: 'Dipublikasikan', bgStatus: 'bg-emerald-100 text-emerald-800', author: 'Sistem Admin', date: '01 Okt 2023', img: 'https://placehold.co/24x24' },
-  ];
+  const getImageUrl = (path?: string) => {
+    if (!path) return "https://placehold.co/80x80?text=No+Image";
+    if (path.startsWith("http://") || path.startsWith("https://")) return path;
+    return `${API_BASE_URL}${path}`;
+  };
+  // const articles = [
+  const[article, setArticle] = useState<Article[]>([]);
+  const[loading, setLoading] = useState(false);
+
+  useEffect(()=>{
+    const getArticle = async () => {
+       try {
+        const response = await ArticleService.GetAllService();
+        setArticle(response);
+      } catch (error) {
+        console.error("Gagal Mendapatkan data Article", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    getArticle();
+  }, []);
+
+  if(loading){
+    return <h1>Loading ...</h1>
+  }
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -44,31 +69,44 @@ export default function Blogs() {
               <tr className="bg-zinc-50 border-b border-stone-200">
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">ID Artikel</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Judul Artikel</th>
+                <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Isi</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Penulis</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Tanggal Publikasi</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider text-right">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
-              {articles.map((art) => (
-                <tr key={art.id} className="hover:bg-zinc-50/50 transition-colors">
-                  <td className="px-6 py-4 text-emerald-900 text-sm font-semibold">{art.id}</td>
+              {article.map((Article) => (
+                <tr key={Article.id} className="hover:bg-zinc-50/50 transition-colors">
+                  <td className="px-6 py-4 text-emerald-900 text-sm font-semibold">{Article.id}</td>
                   <td className="px-6 py-4">
-                    <div className="flex flex-col gap-1">
-                      <span className="text-zinc-900 text-sm font-medium">{art.title}</span>
-                      <div className="flex items-center gap-1.5">
-                        <span className={`w-2 h-2 rounded-full ${art.status === 'Draft' ? 'bg-amber-500' : 'bg-emerald-950'}`} />
-                        <span className="text-neutral-500 text-xs">{art.status}</span>
+                    <div className="flex items-center gap-3">
+                      <img 
+                        className="w-10 h-6 sm:w-12 sm:h-8 rounded object-cover border border-stone-200 bg-stone-100" 
+                        src={getImageUrl(Article.gambar)} 
+                        alt={Article.judul} 
+                      />
+                      <div className="max-w-xs text-zinc-900 text-sm font-medium truncate" title={Article.judul}>
+                        {Article.judul}
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <img className="w-6 h-6 rounded-full object-cover border border-stone-200" src={art.img} alt={art.author} />
-                      <span className="text-zinc-900 text-sm">{art.author}</span>
+                    <div className="max-w-md text-neutral-500 text-sm truncate" title={Article.isi}>
+                      {Article.isi}
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-neutral-600 text-sm">{art.date}</td>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-2">
+                      <img 
+                        className="w-6 h-6 rounded-full object-cover border border-stone-200 bg-stone-50" 
+                        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(Article.username || Article.user_id)}&background=047857&color=fff`} 
+                        alt={Article.username || Article.user_id} 
+                      />
+                      <span className="text-zinc-900 text-sm">{Article.username || Article.user_id}</span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 text-neutral-600 text-sm">{Article.tanggal}</td>
                   <td className="px-6 py-4 text-right">
                     <div className="inline-flex items-center gap-2">
                       <button className="p-1.5 bg-zinc-100 hover:bg-zinc-200 text-neutral-700 rounded-md transition-colors text-xs font-medium">Edit</button>
