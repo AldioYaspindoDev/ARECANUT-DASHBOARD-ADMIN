@@ -3,28 +3,57 @@ import type { UserData } from "../../interface/User";
 import { UserService } from "../../services/userService";
 
 export default function Users() {
-  
-  const[user, setUser] = useState<UserData[]>([]);
-  const[loading, setLoading] = useState(false);
+  const [user, setUser] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [roleFilter, setRoleFilter] = useState("Semua");
 
-  useEffect(()=> {
-    const getUser = async () => {
-      try {
-        const data = await UserService.GetAllUser();
-        setUser(data);
-      } catch (error) {
-        console.error("gagal mendapatkan data", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const getUser = async () => {
+    setLoading(true);
+    try {
+      const data = await UserService.GetAllUser();
+      setUser(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error("Gagal mendapatkan data user:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     getUser();
   }, []);
 
-  if(loading){
-    return<p>Loading ... </p>
-  }
+  const handlePromote = async (userId: string, username: string) => {
+    if (confirm(`Apakah Anda yakin ingin mempromosikan ${username} menjadi Admin?`)) {
+      try {
+        await UserService.PromoteUser(userId);
+        alert(`Berhasil mempromosikan ${username} menjadi Admin!`);
+        getUser();
+      } catch (error) {
+        console.error("Gagal mempromosikan user:", error);
+        alert("Gagal mempromosikan user. Pastikan Anda memiliki hak akses admin.");
+      }
+    }
+  };
 
+  // Filter & Search Logic
+  const filteredUsers = user.filter((u) => {
+    const matchesSearch =
+      u.username.toLowerCase().includes(search.toLowerCase()) ||
+      u.email.toLowerCase().includes(search.toLowerCase());
+    
+    if (roleFilter === "Semua") return matchesSearch;
+    return matchesSearch && u.role.toLowerCase() === roleFilter.toLowerCase();
+  });
+
+  if (loading) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full flex flex-col gap-6">
@@ -34,10 +63,6 @@ export default function Users() {
           <h1 className="text-zinc-900 text-3xl font-semibold font-['Inter'] leading-9">Manajemen User</h1>
           <p className="text-neutral-500 text-sm font-normal font-['Inter'] mt-1">Mengelola dan mengatur role seluruh pengguna dalam ekosistem Pinang AI.</p>
         </div>
-        <button className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors">
-          <span className="text-base font-bold">+</span>
-          <span>Tambah Admin Baru</span>
-        </button>
       </div>
 
       {/* Filter / Search Bar */}
@@ -46,17 +71,28 @@ export default function Users() {
           <input
             type="text"
             placeholder="Cari username atau email..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-zinc-100 rounded-lg border border-transparent focus:border-stone-300 focus:bg-white outline-none text-sm font-['Inter'] transition-colors"
           />
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 bg-neutral-400 rounded-full" />
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 bg-neutral-400 rounded-full flex items-center justify-center text-[10px] text-white">🔍</div>
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
           <span className="text-neutral-500 text-xs font-medium font-['Inter']">Filter Role:</span>
-          <button className="px-4 py-1.5 bg-zinc-800 text-white text-xs font-semibold rounded-full">Semua</button>
-          <button className="px-4 py-1.5 bg-gray-100 text-neutral-700 hover:bg-gray-200 text-xs font-semibold rounded-full transition-colors">Petani</button>
-          <button className="px-4 py-1.5 bg-gray-100 text-neutral-700 hover:bg-gray-200 text-xs font-semibold rounded-full transition-colors">Pengepul</button>
-          <button className="px-4 py-1.5 bg-gray-100 text-neutral-700 hover:bg-gray-200 text-xs font-semibold rounded-full transition-colors">Admin</button>
+          {["Semua", "Petani", "Admin"].map((role) => (
+            <button
+              key={role}
+              onClick={() => setRoleFilter(role)}
+              className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
+                roleFilter === role
+                  ? "bg-emerald-900 text-white"
+                  : "bg-gray-100 text-neutral-700 hover:bg-gray-200"
+              }`}
+            >
+              {role}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -75,44 +111,53 @@ export default function Users() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
-              {user.map((UserData) => (
-                <tr key={UserData.id} className="hover:bg-zinc-50/50 transition-colors">
-                  <td className="px-6 py-4 text-neutral-500 text-sm font-mono">{UserData.id}</td>
-                  <td className="px-6 py-4 text-zinc-900 text-sm font-medium">{UserData.username}</td>
-                  <td className="px-6 py-4 text-neutral-600 text-sm">{UserData.email}</td>
-                  <td className="px-6 py-4">
-                    <span className="px-2.5 py-1 rounded-full text-[11px] font-semibold">
-                      {UserData.role}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-neutral-600 text-sm">{UserData.created_at}</td>
-                  <td className="px-6 py-4 text-right">
-                    <div className="inline-flex items-center gap-2">
-                      <button className="p-1.5 bg-zinc-100 hover:bg-zinc-200 text-neutral-700 rounded-md transition-colors text-xs font-medium">Edit</button>
-                      <button className="p-1.5 bg-red-50 hover:bg-red-100 text-red-700 rounded-md transition-colors text-xs font-medium">Hapus</button>
-                    </div>
+              {filteredUsers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="px-6 py-8 text-center text-neutral-500 text-sm">
+                    Tidak ada user ditemukan
                   </td>
                 </tr>
-              ))}
+              ) : (
+                filteredUsers.map((userData) => (
+                  <tr key={userData.id} className="hover:bg-zinc-50/50 transition-colors">
+                    <td className="px-6 py-4 text-neutral-500 text-sm font-mono">{userData.id}</td>
+                    <td className="px-6 py-4 text-zinc-900 text-sm font-medium">{userData.username}</td>
+                    <td className="px-6 py-4 text-neutral-600 text-sm">{userData.email}</td>
+                    <td className="px-6 py-4">
+                      <span
+                        className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${
+                          userData.role === "admin"
+                            ? "bg-purple-100 text-purple-800"
+                            : "bg-emerald-100 text-emerald-800"
+                        }`}
+                      >
+                        {userData.role}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-neutral-600 text-sm">
+                      {new Date(userData.created_at).toLocaleDateString("id-ID", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </td>
+                    <td className="px-6 py-4 text-right">
+                      {userData.role !== "admin" && (
+                        <button
+                          onClick={() => handlePromote(userData.id, userData.username)}
+                          className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 rounded-md transition-colors text-xs font-semibold"
+                        >
+                          Promosikan Admin
+                        </button>
+                      )}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
-        </div>
-
-        {/* Pagination */}
-        <div className="px-6 py-4 bg-white border-t border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <span className="text-neutral-500 text-xs font-['Inter']">Menampilkan 1-4 dari 42 pengguna</span>
-          <div className="flex items-center gap-1">
-            <button className="p-2 border border-stone-200 rounded-md opacity-50 hover:opacity-100 transition-opacity">
-              &lt;
-            </button>
-            <button className="w-8 h-8 bg-emerald-900 text-white rounded-md text-xs font-semibold flex items-center justify-center">1</button>
-            <button className="w-8 h-8 hover:bg-zinc-100 rounded-md text-xs font-semibold flex items-center justify-center">2</button>
-            <button className="w-8 h-8 hover:bg-zinc-100 rounded-md text-xs font-semibold flex items-center justify-center">3</button>
-            <span className="px-1 text-neutral-500">...</span>
-            <button className="p-2 border border-stone-200 rounded-md hover:bg-zinc-50 transition-colors">
-              &gt;
-            </button>
-          </div>
         </div>
       </div>
     </div>

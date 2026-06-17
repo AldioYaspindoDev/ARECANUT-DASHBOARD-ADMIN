@@ -21,7 +21,7 @@ export default function Login() {
             const response = await LoginService.login({ email, password });
             
             // Simpan token yang diterima dari API ke localStorage
-            localStorage.setItem('token', response.token);
+            localStorage.setItem('token', response.access_token);
             
             // Arahkan ke halaman utama/dashboard admin
             window.location.href = '/';
