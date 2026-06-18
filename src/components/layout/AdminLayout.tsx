@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Sidebar from './Sidebar';
-
+import { FaSearch } from "react-icons/fa";
+import { IoIosNotifications } from "react-icons/io";
 interface AdminLayoutProps {
   children: React.ReactNode;
 }
@@ -44,7 +45,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             {/* Search Bar */}
             <div className="w-full max-w-xs px-4 py-2 bg-zinc-100 rounded-full outline outline-1 outline-offset-[-1px] outline-stone-300 flex justify-start items-center">
               <div className="pr-2 inline-flex flex-col justify-start items-start">
-                <div className="w-3.5 h-3.5 bg-neutral-500 rounded-full" />
+                <FaSearch/>
               </div>
               <input
                 type="text"
@@ -58,7 +59,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex items-center gap-4">
             {/* Notifications */}
             <div className="relative cursor-pointer hover:opacity-80 p-1">
-              <div className="w-4 h-5 bg-neutral-700 rounded-sm" />
+              <IoIosNotifications className='text-2xl'/>
               <div className="w-2 h-2 right-0 top-0 absolute bg-red-700 rounded-full border border-gray-50" />
             </div>
 

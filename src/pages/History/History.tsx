@@ -37,7 +37,7 @@ export default function History() {
 
   const getBgGradeClass = (grade: string) => {
     const normalized = grade.toLowerCase();
-    if (normalized.includes('a')) return 'bg-emerald-600 text-white';
+    if (normalized.includes('a')) return 'bg-[#9B6751] text-white';
     if (normalized.includes('b')) return 'bg-amber-600 text-white';
     if (normalized.includes('c')) return 'bg-red-600 text-white';
     return 'bg-zinc-600 text-white';
@@ -81,7 +81,7 @@ export default function History() {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#572B18]"></div>
       </div>
     );
   }
@@ -96,7 +96,7 @@ export default function History() {
         </div>
         <button
           onClick={handleExportCSV}
-          className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+          className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           <span className="text-base font-bold">⬇</span>
           <span>Export Data (CSV)</span>

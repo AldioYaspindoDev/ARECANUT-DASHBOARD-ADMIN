@@ -35,9 +35,9 @@ export default function Login() {
 
     return (
         <form onSubmit={handleSubmit} className="w-[1280px] bg-gray-50 inline-flex justify-start items-start">
-            <div className="flex-1 self-stretch relative bg-emerald-900 flex justify-center items-start overflow-hidden">
+            <div className="flex-1 self-stretch relative bg-[#572B18] flex justify-center items-start overflow-hidden">
                 <img className="w-[640px] h-[723px] left-0 top-0 absolute" src={backgroundPinang} alt="Agriculture background" />
-                <div className="w-[640px] h-[723px] left-0 top-0 absolute bg-gradient-to-r from-emerald-900/60 to-emerald-800/90" />
+                <div className="w-[640px] h-[723px] left-0 top-0 absolute bg-gradient-to-r bg-gradient-to-r from-emerald-900/20 to-emerald-800/70" />
                 <div className="flex-1 self-stretch p-12 inline-flex flex-col justify-between items-start relative z-10">
                     <div className="self-stretch inline-flex justify-start items-center gap-3">
                         <div className="w-10 h-10 bg-white/20 rounded-xl outline outline-1 outline-offset-[-1px] outline-white/30 backdrop-blur-[6px] flex justify-center items-center">
@@ -46,7 +46,7 @@ export default function Login() {
                             </div>
                         </div>
                         <div className="inline-flex flex-col justify-start items-start">
-                            <div className="justify-center text-white text-xl font-bold font-['Inter'] leading-7">ArecNut Grade</div>
+                            <div className="justify-center text-white text-xl font-bold font-['Inter'] leading-7">ArecaNut Grade</div>
                         </div>
                     </div>
                     <div className="w-96 max-w-96 flex flex-col justify-start items-start gap-4">
@@ -54,7 +54,7 @@ export default function Login() {
                             <div className="self-stretch justify-center text-white text-4xl font-bold font-['Inter'] leading-10">Masa Depan Agrikultur<br />Berbasis Data.</div>
                         </div>
                         <div className="self-stretch flex flex-col justify-start items-start">
-                            <div className="self-stretch justify-center text-emerald-200/80 text-base font-normal font-['Inter'] leading-6">Sistem cerdas klasifikasi kualitas pinang menggunakan<br />kecerdasan buatan untuk akurasi maksimal.</div>
+                            <div className="self-stretch justify-center text-[#FFF3ED]/80 text-base font-normal font-['Inter'] leading-6">Sistem cerdas klasifikasi kualitas pinang menggunakan<br />kecerdasan buatan untuk akurasi maksimal.</div>
                         </div>
                     </div>
                     <div className="self-stretch opacity-60 flex flex-col justify-start items-start">
@@ -86,7 +86,7 @@ export default function Login() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="admin@pinangai.id"
-                                        className="self-stretch w-full pl-12 pr-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-stone-300 text-neutral-700 text-base font-normal font-['Inter'] focus:outline-emerald-800"
+                                        className="self-stretch w-full pl-12 pr-4 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-stone-300 text-neutral-700 text-base font-normal font-['Inter'] focus:outline-[#572B18]"
                                         required
                                     />
                                     <div className="h-6 left-[16px] top-[15px] absolute flex flex-col justify-start items-start pointer-events-none">
@@ -104,7 +104,7 @@ export default function Login() {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="self-stretch w-full px-12 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-stone-300 text-neutral-700 text-base font-normal font-['Inter'] focus:outline-emerald-800"
+                                        className="self-stretch w-full px-12 py-3.5 bg-white rounded-xl outline outline-1 outline-offset-[-1px] outline-stone-300 text-neutral-700 text-base font-normal font-['Inter'] focus:outline-[#572B18]"
                                         required
                                     />
                                     <div className="h-6 left-[16px] top-[15px] absolute flex flex-col justify-start items-start pointer-events-none">
@@ -122,13 +122,13 @@ export default function Login() {
                                     <input 
                                         type="checkbox" 
                                         id="remember" 
-                                        className="w-5 h-5 bg-white rounded border-2 border-stone-300 accent-emerald-900 cursor-pointer" 
+                                        className="w-5 h-5 bg-white rounded border-2 border-stone-300 accent-[#572B18] cursor-pointer" 
                                     />
                                     <label htmlFor="remember" className="justify-center text-neutral-700 text-base font-normal font-['Inter'] leading-6 cursor-pointer">
                                         Ingat saya
                                     </label>
                                 </div>
-                                <button type="button" className="justify-center text-emerald-900 text-base font-bold font-['Inter'] leading-6 bg-transparent border-0 cursor-pointer">
+                                <button type="button" className="justify-center text-[#572B18] text-base font-bold font-['Inter'] leading-6 bg-transparent border-0 cursor-pointer">
                                     Lupa kata sandi?
                                 </button>
                             </div>
@@ -140,7 +140,7 @@ export default function Login() {
                              <button 
                                  type="submit" 
                                  disabled={loading}
-                                 className={`self-stretch w-full px-6 py-4 rounded-xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] inline-flex justify-center items-center gap-2 cursor-pointer border-none transition-colors ${loading ? 'bg-emerald-950 opacity-70 cursor-not-allowed' : 'bg-emerald-900 hover:bg-emerald-950'}`}
+                                 className={`self-stretch w-full px-6 py-4 rounded-xl shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] inline-flex justify-center items-center gap-2 cursor-pointer border-none transition-colors ${loading ? 'bg-[#3D1E11] opacity-70 cursor-not-allowed' : 'bg-[#572B18] hover:bg-[#3D1E11]'}`}
                              >
                                  <span className="text-center text-white text-base font-normal font-['Inter'] leading-6">
                                      {loading ? 'Sedang Masuk...' : 'Masuk'}

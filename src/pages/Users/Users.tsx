@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { UserData } from "../../interface/User";
 import { UserService } from "../../services/userService";
+import { FaSearch } from "react-icons/fa";
 
 export default function Users() {
   const [user, setUser] = useState<UserData[]>([]);
@@ -50,7 +51,7 @@ export default function Users() {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#572B18]"></div>
       </div>
     );
   }
@@ -75,7 +76,9 @@ export default function Users() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-zinc-100 rounded-lg border border-transparent focus:border-stone-300 focus:bg-white outline-none text-sm font-['Inter'] transition-colors"
           />
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 bg-neutral-400 rounded-full flex items-center justify-center text-[10px] text-white">🔍</div>
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4  flex items-center justify-center">
+          <FaSearch/>
+          </div>
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
@@ -86,7 +89,7 @@ export default function Users() {
               onClick={() => setRoleFilter(role)}
               className={`px-4 py-1.5 text-xs font-semibold rounded-full transition-colors ${
                 roleFilter === role
-                  ? "bg-emerald-900 text-white"
+                  ? "bg-[#572B18] text-white"
                   : "bg-gray-100 text-neutral-700 hover:bg-gray-200"
               }`}
             >
@@ -128,7 +131,7 @@ export default function Users() {
                         className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${
                           userData.role === "admin"
                             ? "bg-purple-100 text-purple-800"
-                            : "bg-emerald-100 text-emerald-800"
+                            : "bg-[#FFF3ED] text-[#572B18]"
                         }`}
                       >
                         {userData.role}
@@ -147,7 +150,7 @@ export default function Users() {
                       {userData.role !== "admin" && (
                         <button
                           onClick={() => handlePromote(userData.id, userData.username)}
-                          className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-950 rounded-md transition-colors text-xs font-semibold"
+                          className="px-3 py-1.5 bg-[#FFF3ED] hover:bg-[#FFDED0] text-[#572B18] rounded-md transition-colors text-xs font-semibold"
                         >
                           Promosikan Admin
                         </button>

@@ -10,7 +10,7 @@ export default function Settings() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left column: Quick settings menu */}
         <div className="lg:col-span-1 bg-white rounded-xl border border-stone-200 shadow-sm p-4 flex flex-col gap-1.5 h-fit">
-          <button className="w-full px-4 py-2.5 bg-emerald-50 text-emerald-950 font-semibold rounded-lg text-sm text-left transition-colors">
+          <button className="w-full px-4 py-2.5 bg-[#FFF3ED] text-[#572B18] font-semibold rounded-lg text-sm text-left transition-colors">
             Profile Admin
           </button>
           <button className="w-full px-4 py-2.5 hover:bg-zinc-50 text-neutral-700 font-medium rounded-lg text-sm text-left transition-colors">
@@ -36,7 +36,7 @@ export default function Settings() {
                 <img className="w-full h-full object-cover" src="https://placehold.co/60x60" alt="Avatar" />
               </div>
               <div className="flex gap-2">
-                <button className="px-4 py-1.5 bg-emerald-900 hover:bg-emerald-950 text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
+                <button className="px-4 py-1.5 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-xs font-semibold shadow-sm transition-colors">
                   Ganti Foto
                 </button>
                 <button className="px-4 py-1.5 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-xs font-semibold transition-colors">
@@ -87,7 +87,7 @@ export default function Settings() {
               <button className="px-5 py-2 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-sm font-medium transition-colors">
                 Batal
               </button>
-              <button className="px-5 py-2 bg-emerald-900 hover:bg-emerald-950 text-white rounded-lg text-sm font-semibold transition-colors">
+              <button className="px-5 py-2 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-sm font-semibold transition-colors">
                 Simpan Perubahan
               </button>
             </div>

@@ -114,7 +114,7 @@ export default function Blogs() {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#572B18]"></div>
       </div>
     );
   }
@@ -129,7 +129,7 @@ export default function Blogs() {
         </div>
         <button
           onClick={openAddModal}
-          className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+          className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           <span className="text-base font-bold">+</span>
           <span>Buat Artikel Baru</span>
@@ -174,7 +174,7 @@ export default function Blogs() {
               ) : (
                 filteredArticles.map((a) => (
                   <tr key={a.id} className="hover:bg-zinc-50/50 transition-colors">
-                    <td className="px-6 py-4 text-emerald-900 text-sm font-semibold font-mono">{a.id.substring(0, 8)}...</td>
+                    <td className="px-6 py-4 text-[#572B18] text-sm font-semibold font-mono">{a.id.substring(0, 8)}...</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <img 
@@ -196,7 +196,7 @@ export default function Blogs() {
                       <div className="flex items-center gap-2">
                         <img 
                           className="w-6 h-6 rounded-full object-cover border border-stone-200 bg-stone-50" 
-                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(a.username || a.user_id)}&background=047857&color=fff`} 
+                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(a.username || a.user_id)}&background=572B18&color=fff`} 
                           alt={a.username || a.user_id} 
                         />
                         <span className="text-zinc-900 text-sm">{a.username || "Admin"}</span>
@@ -256,7 +256,7 @@ export default function Blogs() {
                   placeholder="Masukkan judul artikel"
                   value={judul}
                   onChange={(e) => setJudul(e.target.value)}
-                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-emerald-800"
+                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-[#572B18]"
                 />
               </div>
 
@@ -266,7 +266,7 @@ export default function Blogs() {
                   placeholder="Tulis artikel di sini (minimal 20 karakter)..."
                   value={isi}
                   onChange={(e) => setIsi(e.target.value)}
-                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-emerald-800 h-40 resize-none"
+                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-[#572B18] h-40 resize-none"
                 />
               </div>
 
@@ -281,7 +281,7 @@ export default function Blogs() {
                         setImageFile(e.target.files[0]);
                       }
                     }}
-                    className="text-xs text-neutral-600 border border-stone-300 rounded-lg p-2 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-950 file:cursor-pointer"
+                    className="text-xs text-neutral-600 border border-stone-300 rounded-lg p-2 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-[#FFF3ED] file:text-[#572B18] file:cursor-pointer"
                   />
                 </div>
               )}
@@ -296,7 +296,7 @@ export default function Blogs() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-900 hover:bg-emerald-950 text-white rounded-lg text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-xs font-semibold cursor-pointer"
                 >
                   {isEditMode ? "Perbarui" : "Publikasikan"}
                 </button>

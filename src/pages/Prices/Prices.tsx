@@ -5,7 +5,7 @@ import type { Harga } from "../../interface/Harga";
 export default function Prices() {
   const getBgGradeClass = (grade: string) => {
     const normalized = grade.toLowerCase();
-    if (normalized.includes('a')) return 'bg-emerald-500 text-white';
+    if (normalized.includes('a')) return 'bg-[#9B6751] text-white';
     if (normalized.includes('b')) return 'bg-amber-500 text-white';
     if (normalized.includes('c')) return 'bg-red-500 text-white';
     return 'bg-zinc-500 text-white';
@@ -108,7 +108,7 @@ export default function Prices() {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#572B18]"></div>
       </div>
     );
   }
@@ -123,7 +123,7 @@ export default function Prices() {
         </div>
         <button
           onClick={openAddModal}
-          className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+          className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
           <span className="text-base font-bold">+</span>
           <span>Update / Tambah Harga</span>
@@ -244,7 +244,7 @@ export default function Prices() {
                   value={grade}
                   onChange={(e) => setGrade(e.target.value.toUpperCase())}
                   disabled={isEditMode}
-                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-emerald-800 disabled:bg-stone-100 disabled:text-neutral-500"
+                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-[#572B18] disabled:bg-stone-100 disabled:text-neutral-500"
                 />
               </div>
 
@@ -255,7 +255,7 @@ export default function Prices() {
                   placeholder="Contoh: 12000"
                   value={priceVal}
                   onChange={(e) => setPriceVal(e.target.value)}
-                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-emerald-800"
+                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-[#572B18]"
                 />
               </div>
 
@@ -265,7 +265,7 @@ export default function Prices() {
                   placeholder="Keterangan mengenai harga ini..."
                   value={keterangan}
                   onChange={(e) => setKeterangan(e.target.value)}
-                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-emerald-800 h-24 resize-none"
+                  className="px-3.5 py-2 border border-stone-300 rounded-lg text-sm outline-none focus:border-[#572B18] h-24 resize-none"
                 />
               </div>
 
@@ -279,7 +279,7 @@ export default function Prices() {
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-emerald-900 hover:bg-emerald-950 text-white rounded-lg text-xs font-semibold cursor-pointer"
+                  className="px-4 py-2 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-xs font-semibold cursor-pointer"
                 >
                   Simpan
                 </button>

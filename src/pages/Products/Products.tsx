@@ -47,7 +47,7 @@ export default function Products() {
 
   const getBgGradeClass = (grade: string) => {
     const normalized = grade.toLowerCase();
-    if (normalized.includes('a')) return 'bg-emerald-500 text-white';
+    if (normalized.includes('a')) return 'bg-[#9B6751] text-white';
     if (normalized.includes('b')) return 'bg-amber-500 text-white';
     if (normalized.includes('c')) return 'bg-red-500 text-white';
     return 'bg-zinc-500 text-white';
@@ -68,7 +68,7 @@ export default function Products() {
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-950"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#572B18]"></div>
       </div>
     );
   }
@@ -121,7 +121,7 @@ export default function Products() {
 
           <button
             onClick={getPinang}
-            className="px-6 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors text-center w-full cursor-pointer"
+            className="px-6 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm transition-colors text-center w-full cursor-pointer"
           >
             Refresh Data
           </button>
