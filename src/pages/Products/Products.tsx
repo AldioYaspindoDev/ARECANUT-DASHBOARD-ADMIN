@@ -47,9 +47,9 @@ export default function Products() {
 
   const getBgGradeClass = (grade: string) => {
     const normalized = grade.toLowerCase();
-    if (normalized.includes('a')) return 'bg-[#9B6751] text-white';
+    if (normalized.includes('a')) return 'bg-emerald-600 text-white';
     if (normalized.includes('b')) return 'bg-amber-500 text-white';
-    if (normalized.includes('c')) return 'bg-red-500 text-white';
+    if (normalized.includes('c')) return 'bg-rose-500 text-white';
     return 'bg-zinc-500 text-white';
   };
 

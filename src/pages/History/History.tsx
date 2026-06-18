@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { HistoryService } from "../../services/historyService";
+import { FaSearch } from "react-icons/fa";
 
 interface HistoryData {
   id: string;
@@ -37,9 +38,9 @@ export default function History() {
 
   const getBgGradeClass = (grade: string) => {
     const normalized = grade.toLowerCase();
-    if (normalized.includes('a')) return 'bg-[#9B6751] text-white';
-    if (normalized.includes('b')) return 'bg-amber-600 text-white';
-    if (normalized.includes('c')) return 'bg-red-600 text-white';
+    if (normalized.includes('a')) return 'bg-emerald-600 text-white';
+    if (normalized.includes('b')) return 'bg-amber-500 text-white';
+    if (normalized.includes('c')) return 'bg-rose-500 text-white';
     return 'bg-zinc-600 text-white';
   };
 
@@ -113,7 +114,9 @@ export default function History() {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 bg-zinc-100 rounded-lg border border-transparent focus:border-stone-300 focus:bg-white outline-none text-sm font-['Inter'] transition-colors"
           />
-          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 bg-neutral-400 rounded-full flex items-center justify-center text-[10px] text-white">🔍</div>
+          <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4  flex items-center justify-center">
+            <FaSearch/>
+          </div>
         </div>
       </div>
 

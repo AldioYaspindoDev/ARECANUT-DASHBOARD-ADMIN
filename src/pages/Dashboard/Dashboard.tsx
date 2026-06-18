@@ -1,39 +1,97 @@
-import { FaUser} from "react-icons/fa6";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaUser, FaFileExport } from "react-icons/fa6";
 import { IoLeaf } from "react-icons/io5";
 import { MdLibraryBooks } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
-import { FaFileExport } from "react-icons/fa6";
+import { UserService } from "../../services/userService";
+import { PinangService } from "../../services/pinangService";
+import { ArticleService } from "../../services/articleService";
+import { HistoryService } from "../../services/historyService";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalPinang: 0,
+    totalArticles: 0,
+    historyToday: 0,
+  });
+  const [recentHistory, setRecentHistory] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchDashboardData = async () => {
+    setLoading(true);
+    try {
+      const [users, pinangList, articles, historyList] = await Promise.all([
+        UserService.GetAllUser(0, 100).catch(() => []),
+        PinangService.GetAllPinang(0, 100).catch(() => []),
+        ArticleService.GetAllService(0, 100).catch(() => []),
+        HistoryService.GetAllHistory(0, 100).catch(() => []),
+      ]);
+
+      const totalUsers = Array.isArray(users) ? users.length : 0;
+      const totalPinang = Array.isArray(pinangList) ? pinangList.length : 0;
+      const totalArticles = Array.isArray(articles) ? articles.length : 0;
+      
+      const todayStr = new Date().toDateString();
+      const historyToday = Array.isArray(historyList) 
+        ? historyList.filter((h: any) => new Date(h.created_at).toDateString() === todayStr).length
+        : 0;
+
+      setStats({
+        totalUsers,
+        totalPinang,
+        totalArticles,
+        historyToday,
+      });
+
+      if (Array.isArray(historyList)) {
+        const sorted = [...historyList].sort((a: any, b: any) => 
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        );
+        setRecentHistory(sorted.slice(0, 5));
+      }
+    } catch (error) {
+      console.error("Gagal memuat data dashboard:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
   const OverviewData = [
     {
       iconData: FaUser,
       judulData: "TOTAL USER",
-      totalData: "1,250",
+      totalData: loading ? "..." : stats.totalUsers.toLocaleString("id-ID"),
       trend: "+12%",
-      iconColor: "text-[#572B18]",
-      iconBg: "bg-[#FFF3ED]",
+      iconColor: "text-blue-600",
+      iconBg: "bg-blue-50",
     },
     {
       iconData: IoLeaf,
       judulData: "TOTAL PINANG TERDETEKSI",
-      totalData: "45,800",
+      totalData: loading ? "..." : stats.totalPinang.toLocaleString("id-ID"),
       trend: "+5%",
-      iconColor: "text-[#572B18]",
-      iconBg: "bg-[#FFDED0]/50",
+      iconColor: "text-emerald-600",
+      iconBg: "bg-emerald-50",
     },
     {
       iconData: MdLibraryBooks,
       judulData: "ARTIKEL PUBLIK",
-      totalData: "124",
-      iconColor: "text-[#9B6751]",
-      iconBg: "bg-[#FFF3ED]",
+      totalData: loading ? "..." : stats.totalArticles.toLocaleString("id-ID"),
+      iconColor: "text-amber-600",
+      iconBg: "bg-amber-50",
     },
     {
       iconData: FaHistory,
       judulData: "RIWAYAT DETEKSI HARI INI",
-      totalData: "850",
-      iconColor: "text-rose-900",
+      totalData: loading ? "..." : stats.historyToday.toLocaleString("id-ID"),
+      iconColor: "text-rose-600",
       iconBg: "bg-rose-50",
     },
   ];
@@ -63,14 +121,14 @@ export default function Dashboard() {
         {OverviewData.map((item, idx) => {
           const Icon = item.iconData;
           return (
-            <div key={idx} className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-3">
+            <div key={idx} className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow duration-200">
               <div className="flex justify-between items-start">
                 <div className={`w-10 h-10 ${item.iconBg} ${item.iconColor} rounded-lg flex justify-center items-center`}>
                   <Icon className="w-5 h-5" />
                 </div>
                 {item.trend && (
-                  <div className="px-2 py-1 bg-[#FFF3ED] rounded-md flex justify-start items-center gap-1">
-                    <span className="text-[#9B6751] text-xs font-medium font-['Inter'] leading-4">
+                  <div className="px-2 py-1 bg-emerald-50 rounded-md flex justify-start items-center gap-1">
+                    <span className="text-emerald-600 text-xs font-medium font-['Inter'] leading-4">
                       {item.trend}
                     </span>
                   </div>
@@ -94,49 +152,49 @@ export default function Dashboard() {
         {/* Column Left: Chart */}
         <div className="lg:col-span-2 p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-6">
           <div className="flex justify-between items-center">
-            <h2 className="text-zinc-900 text-xl font-semibold font-['Inter'] leading-7">
-              Aktivitas Deteksi
-            </h2>
-            <div className="px-3 py-1 bg-gray-50 rounded-md border border-stone-300 text-zinc-900 text-sm font-normal font-['Inter'] cursor-pointer">
-              7 Hari Terakhir
+            <div className="flex flex-col gap-1">
+              <h2 className="text-zinc-900 text-xl font-semibold font-['Inter'] leading-7">
+                Statistik Deteksi Mingguan
+              </h2>
+              <p className="text-neutral-500 text-xs font-normal">Aktivitas klasifikasi kualitas pinang selama 7 hari terakhir.</p>
             </div>
           </div>
           
           {/* Chart Wrapper */}
           <div className="h-64 relative overflow-hidden border-t border-zinc-100 pt-4">
-            <div className="w-full h-0 top-[50px] absolute border-t border-zinc-100" />
-            <div className="w-full h-0 top-[100px] absolute border-t border-zinc-100" />
-            <div className="w-full h-0 top-[150px] absolute border-t border-zinc-100" />
-            <div className="w-full h-0 top-[200px] absolute border-t border-zinc-100" />
+            <div className="w-full h-0 top-[50px] absolute border-t border-zinc-100/70" />
+            <div className="w-full h-0 top-[100px] absolute border-t border-zinc-100/70" />
+            <div className="w-full h-0 top-[150px] absolute border-t border-zinc-100/70" />
+            <div className="w-full h-0 top-[200px] absolute border-t border-zinc-100/70" />
             
             {/* Mock chart visualization using Tailwind flex values */}
             <div className="absolute inset-x-0 bottom-8 top-4 flex justify-between items-end px-4">
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-28" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-28 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Sen</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-16" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-16 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Sel</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-36" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-36 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Rab</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-24" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-24 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Kam</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-40" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-40 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Jum</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-32" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-32 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Sab</span>
               </div>
               <div className="flex flex-col items-center gap-2 w-12">
-                <div className="w-3 bg-[#572B18] rounded-t-sm h-48" />
+                <div className="w-3.5 bg-gradient-to-t from-[#9B6751] to-[#572B18] rounded-t-md h-48 hover:opacity-90 transition-opacity" />
                 <span className="text-neutral-500 text-xs">Min</span>
               </div>
             </div>
@@ -149,7 +207,10 @@ export default function Dashboard() {
             <h2 className="text-zinc-900 text-xl font-semibold font-['Inter'] leading-7">
               5 Deteksi Terbaru
             </h2>
-            <button className="text-[#572B18] text-xs font-semibold font-['Inter'] hover:underline">
+            <button 
+              onClick={() => navigate("/history")}
+              className="text-[#572B18] text-xs font-semibold font-['Inter'] hover:underline cursor-pointer"
+            >
               Lihat Semua
             </button>
           </div>
@@ -162,75 +223,51 @@ export default function Dashboard() {
               <span className="w-20 text-right">TANGGAL</span>
             </div>
 
-            {/* Row 1 */}
-            <div className="flex justify-between py-3 items-center">
-              <div className="w-24 flex flex-col">
-                <span className="text-zinc-900 text-sm font-medium font-['Inter']">#PNG-082</span>
-                <span className="text-neutral-500 text-xs">Biji Bulat</span>
+            {loading ? (
+              <div className="py-8 text-center text-neutral-400 text-xs">
+                Memuat data...
               </div>
-              <div className="w-20">
-                <span className="px-2.5 py-0.5 bg-[#FFF3ED] text-[#572B18] text-[10px] font-bold rounded">
-                  Grade A
-                </span>
+            ) : recentHistory.length === 0 ? (
+              <div className="py-8 text-center text-neutral-400 text-xs">
+                Belum ada data deteksi
               </div>
-              <span className="w-20 text-right text-neutral-600 text-sm">10:42</span>
-            </div>
+            ) : (
+              recentHistory.map((item) => {
+                const formattedTime = new Date(item.created_at).toLocaleTimeString("id-ID", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                });
+                
+                const getBgClass = (grade: string) => {
+                  const normalized = grade.toLowerCase();
+                  if (normalized.includes('a')) return 'bg-emerald-100 text-emerald-800';
+                  if (normalized.includes('b')) return 'bg-amber-100 text-amber-800';
+                  if (normalized.includes('c')) return 'bg-red-100 text-red-800';
+                  return 'bg-zinc-100 text-zinc-800';
+                };
 
-            {/* Row 2 */}
-            <div className="flex justify-between py-3 items-center">
-              <div className="w-24 flex flex-col">
-                <span className="text-zinc-900 text-sm font-medium font-['Inter']">#PNG-081</span>
-                <span className="text-neutral-500 text-xs">Biji Belah</span>
-              </div>
-              <div className="w-20">
-                <span className="px-2.5 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded">
-                  Grade B
-                </span>
-              </div>
-              <span className="w-20 text-right text-neutral-600 text-sm">09:15</span>
-            </div>
-
-            {/* Row 3 */}
-            <div className="flex justify-between py-3 items-center">
-              <div className="w-24 flex flex-col">
-                <span className="text-zinc-900 text-sm font-medium font-['Inter']">#PNG-080</span>
-                <span className="text-neutral-500 text-xs">Biji Utuh</span>
-              </div>
-              <div className="w-20">
-                <span className="px-2.5 py-0.5 bg-[#FFF3ED] text-[#572B18] text-[10px] font-bold rounded">
-                  Grade A
-                </span>
-              </div>
-              <span className="w-20 text-right text-neutral-600 text-sm">08:30</span>
-            </div>
-
-            {/* Row 4 */}
-            <div className="flex justify-between py-3 items-center">
-              <div className="w-24 flex flex-col">
-                <span className="text-zinc-900 text-sm font-medium font-['Inter']">#PNG-079</span>
-                <span className="text-neutral-500 text-xs">Biji Belah</span>
-              </div>
-              <div className="w-20">
-                <span className="px-2.5 py-0.5 bg-red-100 text-red-800 text-[10px] font-bold rounded">
-                  Grade C
-                </span>
-              </div>
-              <span className="w-20 text-right text-neutral-600 text-sm">Kemarin</span>
-            </div>
-
-            {/* Row 5 */}
-            <div className="flex justify-between py-3 items-center">
-              <div className="w-24 flex flex-col">
-                <span className="text-zinc-900 text-sm font-medium font-['Inter']">#PNG-078</span>
-                <span className="text-neutral-500 text-xs">Biji Bulat</span>
-              </div>
-              <div className="w-20">
-                <span className="px-2.5 py-0.5 bg-[#FFF3ED] text-[#572B18] text-[10px] font-bold rounded">
-                  Grade A
-                </span>
-              </div>
-              <span className="w-20 text-right text-neutral-600 text-sm">Kemarin</span>
-            </div>
+                return (
+                  <div key={item.id} className="flex justify-between py-3 items-center">
+                    <div className="w-24 flex flex-col">
+                      <span className="text-zinc-900 text-sm font-medium font-['Inter'] truncate">
+                        #{item.pinang_id?.substring(0, 8) || item.id?.substring(0, 8)}
+                      </span>
+                      <span className="text-neutral-500 text-[10px] truncate" title={item.keterangan_harga || item.catatan}>
+                        {item.keterangan_harga || item.catatan || "Deteksi Pinang"}
+                      </span>
+                    </div>
+                    <div className="w-20">
+                      <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded ${getBgClass(item.grade)}`}>
+                        Grade {item.grade}
+                      </span>
+                    </div>
+                    <span className="w-20 text-right text-neutral-600 text-sm">
+                      {formattedTime}
+                    </span>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>

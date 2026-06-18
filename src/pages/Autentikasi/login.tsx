@@ -37,7 +37,7 @@ export default function Login() {
         <form onSubmit={handleSubmit} className="w-[1280px] bg-gray-50 inline-flex justify-start items-start">
             <div className="flex-1 self-stretch relative bg-[#572B18] flex justify-center items-start overflow-hidden">
                 <img className="w-[640px] h-[723px] left-0 top-0 absolute" src={backgroundPinang} alt="Agriculture background" />
-                <div className="w-[640px] h-[723px] left-0 top-0 absolute bg-gradient-to-r bg-gradient-to-r from-emerald-900/20 to-emerald-800/70" />
+                <div className="w-[640px] h-[723px] left-0 top-0 absolute bg-gradient-to-r from-[#572B18]/70 to-[#9B6751]/80" />
                 <div className="flex-1 self-stretch p-12 inline-flex flex-col justify-between items-start relative z-10">
                     <div className="self-stretch inline-flex justify-start items-center gap-3">
                         <div className="w-10 h-10 bg-white/20 rounded-xl outline outline-1 outline-offset-[-1px] outline-white/30 backdrop-blur-[6px] flex justify-center items-center">
