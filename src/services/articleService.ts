@@ -1,48 +1,34 @@
-import axios from "axios";
-import { API_BASE_URL } from "../utils/constants";
-
-const getAuthHeaders = (isMultipart = false) => {
-  const token = localStorage.getItem("token");
-  return {
-    ...(isMultipart ? {} : { "Content-Type": "application/json" }),
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-};
+import { api } from "./api";
 
 export const ArticleService = {
   GetAllService: async (skip: number = 0, limit: number = 100) => {
-    const response = await axios.get(`${API_BASE_URL}/api/article`, {
+    const response = await api.get("api/article", {
       params: { skip, limit },
-      headers: getAuthHeaders(),
     });
     return response.data;
   },
 
   GetByIdService: async (articleId: string) => {
-    const response = await axios.get(`${API_BASE_URL}/api/article/${articleId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await api.get(`api/article/${articleId}`);
     return response.data;
   },
 
   CreateService: async (formData: FormData) => {
-    const response = await axios.post(`${API_BASE_URL}/api/article/`, formData, {
-      headers: getAuthHeaders(true),
+    const response = await api.post("api/article/", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response.data;
   },
 
   UpdateService: async (articleId: string, articleData: { judul?: string; isi?: string; gambar?: string }) => {
-    const response = await axios.put(`${API_BASE_URL}/api/article/${articleId}`, articleData, {
-      headers: getAuthHeaders(),
-    });
+    const response = await api.put(`api/article/${articleId}`, articleData);
     return response.data;
   },
 
   DeleteService: async (articleId: string) => {
-    const response = await axios.delete(`${API_BASE_URL}/api/article/${articleId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await api.delete(`api/article/${articleId}`);
     return response.data;
   },
-};
+};

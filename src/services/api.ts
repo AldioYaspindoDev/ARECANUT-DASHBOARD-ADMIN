@@ -1,18 +1,15 @@
-import { API_BASE_URL } from '../utils/constants';
+import axios from "axios";
 
-// Fungsi helper fetch standar dengan handling json & error
-export const apiRequest = async <T>(endpoint: string, options?: RequestInit): Promise<T> => {
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    headers: {
-      'Content-Type': 'application/json',
-      ...options?.headers,
-    },
-    ...options,
-  });
+export const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
-  if (!response.ok) {
-    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+
+  if(token){
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
-  return response.json() as Promise<T>;
-};
+  return config;
+});

@@ -1,34 +1,44 @@
-import axios from "axios";
-import { API_BASE_URL } from "../utils/constants";
-
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token");
-  return {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-};
+import { api } from "./api";
 
 export const UserService = {
   GetAllUser: async (skip: number = 0, limit: number = 100) => {
-    // Sebagai admin dashboard, kita gunakan endpoint admin jika ada token
     const token = localStorage.getItem("token");
-    const endpoint = token ? "/api/admin/getuser" : "/api/user/all";
-    const response = await axios.get(`${API_BASE_URL}${endpoint}`, {
+    const endpoint = token ? "api/admin/getuser" : "api/user/all";
+    const response = await api.get(endpoint, {
       params: { skip, limit },
-      headers: getAuthHeaders(),
     });
     return response.data;
   },
 
-  PromoteUser: async (userId: string) => {
-    const response = await axios.patch(
-      `${API_BASE_URL}/api/admin/promote/${userId}`,
-      {},
-      {
-        headers: getAuthHeaders(),
-      }
-    );
+  getCurrentUser: async () => {
+    const response = await api.get("api/user/me");
     return response.data;
   },
+
+  PromoteUser: async (userId: string) => {
+    const response = await api.patch(`api/admin/promote/${userId}`, {});
+    return response.data;
+  },
+
+  createPhotoProfile: async (file: File) => {
+    const formData = new FormData();
+    formData.append("gambar", file);
+    const response = await api.post("api/user/upload-foto", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  },
+
+  updatedPhotoProfile: async (userId: string, file: File) => {
+    const formData = new FormData();
+    formData.append("gambar", file);
+    const response = await api.put(`api/user/${userId}/update-foto`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  }
 };

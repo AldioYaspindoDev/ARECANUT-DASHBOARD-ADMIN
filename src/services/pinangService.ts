@@ -1,34 +1,24 @@
-import axios from "axios";
-import { API_BASE_URL } from "../utils/constants";
-
-const getAuthHeaders = (isMultipart = false) => {
-  const token = localStorage.getItem("token");
-  return {
-    ...(isMultipart ? {} : { "Content-Type": "application/json" }),
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
-};
+import { api } from "./api";
 
 export const PinangService = {
   CreatePinang: async (formData: FormData) => {
-    const response = await axios.post(`${API_BASE_URL}/api/pinang`, formData, {
-      headers: getAuthHeaders(true),
+    const response = await api.post("api/pinang", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     return response.data;
   },
 
   GetAllPinang: async (skip: number = 0, limit: number = 100) => {
-    const response = await axios.get(`${API_BASE_URL}/api/pinang`, {
+    const response = await api.get("api/pinang", {
       params: { skip, limit },
-      headers: getAuthHeaders(),
     });
     return response.data;
   },
 
   GetPinangById: async (pinangId: string) => {
-    const response = await axios.get(`${API_BASE_URL}/api/pinang/${pinangId}`, {
-      headers: getAuthHeaders(),
-    });
+    const response = await api.get(`api/pinang/${pinangId}`);
     return response.data;
   },
 };
