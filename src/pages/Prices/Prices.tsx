@@ -155,16 +155,6 @@ export default function Prices() {
       <div className="bg-white rounded-xl border border-stone-200 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-stone-200 flex flex-col sm:flex-row justify-between items-center gap-4">
           <h2 className="text-zinc-900 text-xl font-semibold font-['Inter'] leading-7">Daftar Harga Acuan</h2>
-          <div className="relative w-full sm:w-64">
-            <input
-              type="text"
-              placeholder="Cari grade atau keterangan..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-zinc-100 rounded-lg border border-transparent focus:border-stone-300 focus:bg-white outline-none text-sm font-['Inter'] transition-colors"
-            />
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 bg-neutral-400 rounded-full flex items-center justify-center text-[10px] text-white">🔍</div>
-          </div>
         </div>
 
         <div className="overflow-x-auto">

@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Logo from '../../assets/Logo.png';
+import Logo from '../../assets/Logo2.png';
 import { IoHome, IoLeaf } from "react-icons/io5";
 import { FaUser } from "react-icons/fa6";
 import { FaHistory } from "react-icons/fa";
@@ -40,14 +40,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }`}
       >
         {/* Sidebar Header / Logo */}
-        <div className="self-stretch pb-8 flex flex-col justify-start items-start">
+        <NavLink to={'/'}>
+          <div className="self-stretch pb-8 flex flex-col justify-start items-start">
           <div className="self-stretch px-4 inline-flex justify-start items-center gap-3">
             <div className='w-12'>
               <img src={Logo} alt="Logo" />
             </div>
             <div className="inline-flex flex-col justify-start items-start">
               <span className="text-xl font-bold font-['Inter'] leading-6 text-[#572B18]">
-                ArecaNut Grade
+                ArecaNut <span className='text-emerald-700'>Grade</span>
               </span>
               <span className="text-neutral-500 text-[10px] font-medium font-['Inter'] leading-3 uppercase tracking-wider">
                 Agricultural Intelligence
@@ -55,6 +56,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             </div>
           </div>
         </div>
+        </NavLink>
+
 
         {/* Sidebar Menu Items */}
         <nav className="flex-1 flex flex-col gap-1.5 overflow-y-auto px-2">
@@ -68,7 +71,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 className={({ isActive }) =>
                   `w-full px-4 py-3 rounded-lg flex items-center gap-3 transition-colors font-semibold font-['Inter'] text-xs leading-4 tracking-wide ${
                     isActive
-                      ? 'bg-[#FFF3ED] text-[#572B18] border-r-4 border-[#572B18]'
+                      ? 'bg-emerald-100/50 text-[#572B18]'
                       : 'text-neutral-700 hover:bg-zinc-100 hover:text-zinc-900'
                   }`
                 }

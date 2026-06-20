@@ -38,6 +38,19 @@ export default function Users() {
     }
   };
 
+  const handleDeleteUser = async (userId: string, username: string) => {
+    if (confirm(`Apakah Anda yakin ingin menghapus akun ${username}?`)) {
+      try {
+        await UserService.deleteUser(userId);
+        alert(`Berhasil menghapus akun ${username}!`);
+        getUser();
+      } catch (error: any) {
+        console.error("Gagal menghapus user:", error);
+        alert(error.response?.data?.detail || "Gagal menghapus user.");
+      }
+    }
+  };
+
   // Filter & Search Logic
   const filteredUsers = user.filter((u) => {
     const matchesSearch =
@@ -146,15 +159,21 @@ export default function Users() {
                         minute: "2-digit",
                       })}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4 text-right flex justify-end gap-2 items-center">
                       {userData.role !== "admin" && (
                         <button
                           onClick={() => handlePromote(userData.id, userData.username)}
-                          className="px-3 py-1.5 bg-[#FFF3ED] hover:bg-[#FFDED0] text-[#572B18] rounded-md transition-colors text-xs font-semibold"
+                          className="px-3 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 rounded-md transition-colors text-xs font-semibold cursor-pointer"
                         >
                           Promosikan Admin
                         </button>
                       )}
+                      <button
+                        onClick={() => handleDeleteUser(userData.id, userData.username)}
+                        className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white rounded-md transition-colors text-xs font-semibold cursor-pointer"
+                      >
+                        Hapus
+                      </button>
                     </td>
                   </tr>
                 ))

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PinangService } from "../../services/pinangService";
 import { API_BASE_URL } from "../../utils/constants";
-
 interface PinangItem {
   id: string;
   user_id: string;
@@ -31,6 +30,21 @@ export default function Products() {
       console.error("Gagal mengambil data pinang:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (pinangId: string) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus data deteksi pinang ini?")) {
+      return;
+    }
+
+    try {
+      await PinangService.DeletePinang(pinangId);
+      alert("Data deteksi pinang berhasil dihapus");
+      setPinangList((prev) => prev.filter((item) => item.id !== pinangId));
+    } catch (error) {
+      console.error("Gagal menghapus data pinang:", error);
+      alert("Gagal menghapus data pinang");
     }
   };
 
@@ -141,12 +155,13 @@ export default function Products() {
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Kekeringan / Deskripsi</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Tanggal</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">User Pemilik</th>
+                <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider text-center">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
               {filteredPinang.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-8 text-center text-neutral-500 text-sm">
+                  <td colSpan={8} className="px-6 py-8 text-center text-neutral-500 text-sm">
                     Tidak ada data deteksi pinang ditemukan
                   </td>
                 </tr>
@@ -158,8 +173,8 @@ export default function Products() {
                     </td>
                     <td className="px-6 py-4 text-zinc-900 text-sm font-medium font-mono">{item.id.substring(0, 8)}...</td>
                     <td className="px-6 py-4 text-zinc-900 text-sm">{item.jenis_pinang}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2.5 py-1 rounded-full text-[11px] font-semibold ${getBgGradeClass(item.kualitas_pinang)}`}>
+                    <td className="py-4">
+                      <span className={`p-1 rounded-full text-[10px] font-normal ${getBgGradeClass(item.kualitas_pinang)}`}>
                         Grade {item.kualitas_pinang} ({item.persentase || "0%"})
                       </span>
                     </td>
@@ -178,6 +193,14 @@ export default function Products() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="text-zinc-900 text-sm font-mono">{item.user_id}</span>
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded shadow-sm transition-colors cursor-pointer"
+                      >
+                        Hapus
+                      </button>
                     </td>
                   </tr>
                 ))

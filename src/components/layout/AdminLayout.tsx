@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
-import { FaSearch } from "react-icons/fa";
-import { IoIosNotifications } from "react-icons/io";
 import type { UserData } from '../../interface/User';
 import { UserService } from '../../services/userService';
 import { API_BASE_URL } from '../../utils/constants';
+import { NavLink } from 'react-router-dom';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -53,6 +52,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content Area */}
+      {user && (
       <div className="flex flex-1 flex-col min-w-0">
         {/* Top Navbar */}
         <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-stone-200 bg-gray-50/80 px-4 md:px-8 backdrop-blur-md">
@@ -81,38 +81,21 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </button>
 
             {/* Search Bar */}
-            <div className="w-full max-w-xs px-4 py-2 bg-zinc-100 rounded-full outline outline-1 outline-offset-[-1px] outline-stone-300 flex justify-start items-center">
-              <div className="pr-2 inline-flex flex-col justify-start items-start">
-                <FaSearch/>
-              </div>
-              <input
-                type="text"
-                placeholder="Cari data..."
-                className="w-full bg-transparent border-none outline-none text-zinc-800 placeholder-neutral-500 text-sm font-normal font-['Inter']"
-              />
+            <div>
+              <p className='font-bold'> Hello <span className='text-emerald-900'>{user.username || "Admin"} </span></p>
             </div>
           </div>
 
-          {/* Right section: Notifications & Avatar */}
-          {user && (
+           {/* Profile Avatar */}
+          
+          <NavLink to={'/settings'}>
           <div className="flex items-center gap-4">
-            {/* Username */}
-            <div>
-              <p>Hello {user.username || "Admin"}</p>
-            </div>
-            {/* Notifications */}
-            <div className="relative cursor-pointer hover:opacity-80 p-1">
-              <IoIosNotifications className='text-2xl'/>
-              <div className="w-2 h-2 right-0 top-0 absolute bg-red-700 rounded-full border border-gray-50" />
-            </div>
-
-
-            {/* Profile Avatar */}
             <div className="w-8 h-8 bg-zinc-200 rounded-full outline outline-1 outline-offset-[-1px] outline-stone-300 overflow-hidden cursor-pointer hover:opacity-90">
               <img className="w-full h-full object-cover" src={getImageUrl(user.photoProfile)} alt="Avatar" />
             </div>
           </div>
-          )}
+          </NavLink>
+         
         </header>
 
         {/* Content Wrapper */}
@@ -120,6 +103,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           {children}
         </main>
       </div>
+       )}
     </div>
   );
 }

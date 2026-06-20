@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FaUser, FaFileExport } from "react-icons/fa6";
 import { IoLeaf } from "react-icons/io5";
 import { MdLibraryBooks } from "react-icons/md";
@@ -68,17 +68,17 @@ export default function Dashboard() {
       iconData: FaUser,
       judulData: "TOTAL USER",
       totalData: loading ? "..." : stats.totalUsers.toLocaleString("id-ID"),
-      trend: "+12%",
       iconColor: "text-blue-600",
       iconBg: "bg-blue-50",
+      path: '/users'
     },
     {
       iconData: IoLeaf,
       judulData: "TOTAL PINANG TERDETEKSI",
       totalData: loading ? "..." : stats.totalPinang.toLocaleString("id-ID"),
-      trend: "+5%",
       iconColor: "text-emerald-600",
       iconBg: "bg-emerald-50",
+      path: '/pinang-data'
     },
     {
       iconData: MdLibraryBooks,
@@ -86,6 +86,7 @@ export default function Dashboard() {
       totalData: loading ? "..." : stats.totalArticles.toLocaleString("id-ID"),
       iconColor: "text-amber-600",
       iconBg: "bg-amber-50",
+      path: '/articles'
     },
     {
       iconData: FaHistory,
@@ -93,13 +94,14 @@ export default function Dashboard() {
       totalData: loading ? "..." : stats.historyToday.toLocaleString("id-ID"),
       iconColor: "text-rose-600",
       iconBg: "bg-rose-50",
+      path: '/history'
     },
   ];
 
   return (
     <div className="w-full flex flex-col gap-8">
       {/* Page Title & Action */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-col  sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex flex-col gap-1">
           <h1 className="text-zinc-900 text-3xl font-semibold font-['Inter'] leading-9">
             Dashboard Overview
@@ -108,9 +110,9 @@ export default function Dashboard() {
             Ringkasan cepat kondisi sistem Pinang AI hari ini.
           </p>
         </div>
-        <button className="px-4 py-2 rounded-lg border border-stone-300 bg-white flex justify-start items-center gap-2 hover:bg-zinc-50 transition-colors">
-          <FaFileExport/>
-          <span className="text-zinc-900 text-xs font-semibold font-['Inter'] leading-4 tracking-wide">
+        <button className="px-4 py-2 bg-emerald-800 rounded-lg border border-stone-300 flex justify-start items-center gap-2 hover:bg-emerald-900 transition-colors">
+          <FaFileExport className="text-white"/>
+          <span className="text-white text-xs font-semibold font-['Inter'] leading-4 tracking-wide">
             Export
           </span>
         </button>
@@ -121,18 +123,12 @@ export default function Dashboard() {
         {OverviewData.map((item, idx) => {
           const Icon = item.iconData;
           return (
+            <NavLink to={item.path}>
             <div key={idx} className="p-6 bg-white rounded-xl border border-stone-200 shadow-sm flex flex-col gap-3 hover:shadow-md transition-shadow duration-200">
               <div className="flex justify-between items-start">
                 <div className={`w-10 h-10 ${item.iconBg} ${item.iconColor} rounded-lg flex justify-center items-center`}>
                   <Icon className="w-5 h-5" />
                 </div>
-                {item.trend && (
-                  <div className="px-2 py-1 bg-emerald-50 rounded-md flex justify-start items-center gap-1">
-                    <span className="text-emerald-600 text-xs font-medium font-['Inter'] leading-4">
-                      {item.trend}
-                    </span>
-                  </div>
-                )}
               </div>
               <div className="pt-2 flex flex-col">
                 <span className="text-neutral-500 text-[10px] font-bold font-['Inter'] uppercase tracking-wider">
@@ -143,6 +139,7 @@ export default function Dashboard() {
                 </span>
               </div>
             </div>
+            </NavLink>
           );
         })}
       </div>

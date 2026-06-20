@@ -197,11 +197,6 @@ export default function Blogs() {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <img 
-                          className="w-6 h-6 rounded-full object-cover border border-stone-200 bg-stone-50" 
-                          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(a.username || a.user_id)}&background=572B18&color=fff`} 
-                          alt={a.username || a.user_id} 
-                        />
                         <span className="text-zinc-900 text-sm">{a.username || "Admin"}</span>
                       </div>
                     </td>

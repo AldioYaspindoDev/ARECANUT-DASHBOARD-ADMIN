@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { HistoryService } from "../../services/historyService";
 import { FaSearch } from "react-icons/fa";
+import { FaFileExport } from "react-icons/fa6";
 
 interface HistoryData {
   id: string;
@@ -99,7 +100,7 @@ export default function History() {
           onClick={handleExportCSV}
           className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
         >
-          <span className="text-base font-bold">⬇</span>
+          <span className="text-base font-bold"><FaFileExport/></span>
           <span>Export Data (CSV)</span>
         </button>
       </div>

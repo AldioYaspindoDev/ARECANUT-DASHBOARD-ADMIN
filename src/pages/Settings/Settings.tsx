@@ -8,11 +8,17 @@ export default function Settings() {
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const getProfile = async () => {
     setLoading(true);
     try {
       const response = await UserService.getCurrentUser();
       setUser(response); 
+      setUsername(response.username || "");
+      setEmail(response.email || "");
     } catch (error) {
       console.error("No User", error);
     } finally {
@@ -60,6 +66,78 @@ export default function Settings() {
     fileInputRef.current?.click();
   };
 
+  const handlePhotoDelete = async () => {
+    if (!user) return;
+    if (!user.photoProfile) {
+      alert("Anda belum memiliki foto profil");
+      return;
+    }
+
+    if (!window.confirm("Apakah Anda yakin ingin menghapus foto profil?")) return;
+
+    setLoading(true);
+    try {
+      const updatedUser = await UserService.deletePhotoProfile(user.id);
+      setUser(updatedUser);
+      alert("Foto profil berhasil dihapus!");
+    } catch (error) {
+      console.error("Gagal menghapus foto profil", error);
+      alert("Gagal menghapus foto profil");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = () => {
+    if (window.confirm("Apakah Anda yakin ingin logout?")) {
+      localStorage.removeItem("token");
+      window.location.href = "/login";
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    if (!user) return;
+    
+    if (!username.trim()) {
+      alert("Username tidak boleh kosong");
+      return;
+    }
+    if (!email.trim()) {
+      alert("Email tidak boleh kosong");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const updateData: { username: string; email: string; password?: string } = {
+        username,
+        email,
+      };
+      
+      if (password.trim()) {
+        updateData.password = password;
+      }
+
+      const updatedUser = await UserService.updateUser(user.id, updateData);
+      setUser(updatedUser);
+      setPassword(""); // Reset password
+      alert("Data profil berhasil diperbarui!");
+    } catch (error: any) {
+      console.error("Gagal memperbarui data profil", error);
+      alert(error.response?.data?.detail || "Gagal memperbarui data profil");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCancel = () => {
+    if (user) {
+      setUsername(user.username || "");
+      setEmail(user.email || "");
+      setPassword("");
+    }
+  };
+
   if (loading) {
     return ( 
       <div className="flex justify-center items-center h-64">
@@ -79,17 +157,14 @@ export default function Settings() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Left column: Quick settings menu */}
         <div className="lg:col-span-1 bg-white rounded-xl border border-stone-200 shadow-sm p-4 flex flex-col gap-1.5 h-fit">
-          <button className="w-full px-4 py-2.5 bg-[#FFF3ED] text-[#572B18] font-semibold rounded-lg text-sm text-left transition-colors">
+          <button className="w-full px-4 py-2.5 bg-emerald-100 text-[#572B18] font-semibold rounded-lg text-sm text-left transition-colors">
             Profile Admin
           </button>
-          <button className="w-full px-4 py-2.5 hover:bg-zinc-50 text-neutral-700 font-medium rounded-lg text-sm text-left transition-colors">
-            Keamanan & Password
-          </button>
-          <button className="w-full px-4 py-2.5 hover:bg-zinc-50 text-neutral-700 font-medium rounded-lg text-sm text-left transition-colors">
-            Konfigurasi API
-          </button>
-          <button className="w-full px-4 py-2.5 hover:bg-zinc-50 text-neutral-700 font-medium rounded-lg text-sm text-left transition-colors">
-            Notifikasi Sistem
+          <button
+            onClick={handleLogout}
+            className="w-full px-4 py-2.5 bg-red-400 hover:bg-red-500 text-white font-medium rounded-lg text-sm text-left transition-colors cursor-pointer"
+          >
+            Logout
           </button>
         </div>
         
@@ -120,7 +195,10 @@ export default function Settings() {
                   >
                     Ganti Foto
                   </button>
-                  <button className="px-4 py-1.5 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-xs font-semibold transition-colors">
+                  <button
+                    onClick={handlePhotoDelete}
+                    className="px-4 py-1.5 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-xs font-semibold transition-colors cursor-pointer"
+                  >
                     Hapus
                   </button>
                 </div>
@@ -131,7 +209,8 @@ export default function Settings() {
                   <label className="text-neutral-700 text-xs font-semibold">Username</label>
                   <input
                     type="text"
-                    defaultValue={user.username}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                     className="px-4 py-2 bg-gray-50 border border-stone-300 rounded-lg text-sm text-zinc-900 outline-none w-full focus:bg-white focus:border-stone-400 transition-colors"
                   />
                 </div>
@@ -141,7 +220,19 @@ export default function Settings() {
                 <label className="text-neutral-700 text-xs font-semibold">Email</label>
                 <input
                   type="email"
-                  defaultValue={user.email}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="px-4 py-2 bg-gray-50 border border-stone-300 rounded-lg text-sm text-zinc-900 outline-none w-full focus:bg-white focus:border-stone-400 transition-colors"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <label className="text-neutral-700 text-xs font-semibold">Password Baru (Kosongkan jika tidak ingin diubah)</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
                   className="px-4 py-2 bg-gray-50 border border-stone-300 rounded-lg text-sm text-zinc-900 outline-none w-full focus:bg-white focus:border-stone-400 transition-colors"
                 />
               </div>
@@ -157,10 +248,16 @@ export default function Settings() {
               </div>
 
               <div className="flex justify-end gap-3 mt-4 border-t border-zinc-100 pt-4">
-                <button className="px-5 py-2 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-sm font-medium transition-colors">
+                <button
+                  onClick={handleCancel}
+                  className="px-5 py-2 border border-stone-300 rounded-lg text-zinc-900 hover:bg-zinc-50 text-sm font-medium transition-colors cursor-pointer"
+                >
                   Batal
                 </button>
-                <button className="px-5 py-2 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-sm font-semibold transition-colors">
+                <button
+                  onClick={handleSaveChanges}
+                  className="px-5 py-2 bg-[#572B18] hover:bg-[#3D1E11] text-white rounded-lg text-sm font-semibold transition-colors cursor-pointer"
+                >
                   Simpan Perubahan
                 </button>
               </div>

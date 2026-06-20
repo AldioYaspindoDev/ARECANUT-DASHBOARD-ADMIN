@@ -21,4 +21,9 @@ export const PinangService = {
     const response = await api.get(`api/pinang/${pinangId}`);
     return response.data;
   },
+
+  DeletePinang: async (pinangId: string) => {
+    const response = await api.delete(`api/pinang/${pinangId}`);
+    return response.data;
+  },
 };

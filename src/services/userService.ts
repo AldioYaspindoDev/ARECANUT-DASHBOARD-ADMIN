@@ -31,6 +31,11 @@ export const UserService = {
     return response.data;
   },
 
+  updateUser: async (userId: string, userData: {username?: string, email?: string, password?: string}) => {
+    const response = await api.put(`api/user/${userId}`, userData);
+    return response.data
+  },
+
   updatedPhotoProfile: async (userId: string, file: File) => {
     const formData = new FormData();
     formData.append("gambar", file);
@@ -39,6 +44,16 @@ export const UserService = {
         "Content-Type": "multipart/form-data",
       },
     });
+    return response.data;
+  },
+
+  deletePhotoProfile: async (userId: string) => {
+    const response = await api.delete(`api/user/${userId}/delete-foto`);
+    return response.data;
+  },
+
+  deleteUser: async (userId: string) => {
+    const response = await api.delete(`api/user/${userId}`);
     return response.data;
   }
 };
