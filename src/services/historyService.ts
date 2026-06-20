@@ -12,4 +12,9 @@ export const HistoryService = {
     const response = await api.get(`api/history/${historyId}`);
     return response.data;
   },
+
+  DeleteHistory: async (historyId: string) => {
+    const response = await api.delete(`api/history/${historyId}`);
+    return response.data;
+  },
 };

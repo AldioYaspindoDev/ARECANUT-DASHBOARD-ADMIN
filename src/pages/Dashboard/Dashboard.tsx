@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { FaUser, FaFileExport } from "react-icons/fa6";
+import { FaUser } from "react-icons/fa6";
 import { IoLeaf } from "react-icons/io5";
 import { MdLibraryBooks } from "react-icons/md";
 import { FaHistory } from "react-icons/fa";
@@ -110,12 +110,7 @@ export default function Dashboard() {
             Ringkasan cepat kondisi sistem Pinang AI hari ini.
           </p>
         </div>
-        <button className="px-4 py-2 bg-emerald-800 rounded-lg border border-stone-300 flex justify-start items-center gap-2 hover:bg-emerald-900 transition-colors">
-          <FaFileExport className="text-white"/>
-          <span className="text-white text-xs font-semibold font-['Inter'] leading-4 tracking-wide">
-            Export
-          </span>
-        </button>
+        
       </div>
 
       {/* Grid Stats Cards */}

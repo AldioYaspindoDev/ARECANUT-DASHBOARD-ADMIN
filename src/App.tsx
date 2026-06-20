@@ -11,11 +11,15 @@ import Products from './pages/Products/Products';
 import History from './pages/History/History';
 import Prices from './pages/Prices/Prices';
 import Settings from './pages/Settings/Settings';
+import Scanner from './pages/Scanner/Scanner';
+import HomePage from './pages/Homepages/HomePage';
+
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         {/* Protected Admin Dashboard and Sub-pages */}
         <Route
@@ -24,9 +28,10 @@ export default function App() {
             <ProtectedRoute>
               <AdminLayout>
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/users" element={<Users />} />
                   <Route path="/pinang-data" element={<Products />} />
+                  <Route path="/scanner" element={<Scanner />} />
                   <Route path="/history" element={<History />} />
                   <Route path="/articles" element={<Blogs />} />
                   <Route path="/prices" element={<Prices />} />

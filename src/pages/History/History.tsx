@@ -33,6 +33,21 @@ export default function History() {
     }
   };
 
+  const handleDelete = async (historyId: string) => {
+    if (!window.confirm("Apakah Anda yakin ingin menghapus data riwayat ini?")) {
+      return;
+    }
+
+    try {
+      await HistoryService.DeleteHistory(historyId);
+      alert("Data riwayat berhasil dihapus");
+      setHistoryList((prev) => prev.filter((item) => item.id !== historyId));
+    } catch (error) {
+      console.error("Gagal menghapus data riwayat:", error);
+      alert("Gagal menghapus data riwayat");
+    }
+  };
+
   useEffect(() => {
     getHistory();
   }, []);
@@ -132,12 +147,13 @@ export default function History() {
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Info Scan</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Lokasi / Perangkat</th>
                 <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider">Waktu Deteksi</th>
+                <th className="px-6 py-4 text-neutral-500 text-xs font-semibold font-['Inter'] uppercase tracking-wider text-center">Aksi</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
               {filteredHistory.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-8 text-center text-neutral-500 text-sm">
+                  <td colSpan={6} className="px-6 py-8 text-center text-neutral-500 text-sm">
                     Tidak ada riwayat deteksi ditemukan
                   </td>
                 </tr>
@@ -168,6 +184,14 @@ export default function History() {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
+                    </td>
+                    <td className="px-6 py-4 text-center">
+                      <button
+                        onClick={() => handleDelete(item.id)}
+                        className="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold rounded shadow-sm transition-colors cursor-pointer"
+                      >
+                        Hapus
+                      </button>
                     </td>
                   </tr>
                 ))

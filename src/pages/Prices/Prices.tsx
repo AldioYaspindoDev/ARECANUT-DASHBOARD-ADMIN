@@ -13,7 +13,6 @@ export default function Prices() {
 
   const [harga, setHarga] = useState<Harga[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -100,11 +99,6 @@ export default function Prices() {
     }
   };
 
-  const filteredHarga = harga.filter((h) =>
-    h.grade.toLowerCase().includes(search.toLowerCase()) ||
-    (h.keterangan && h.keterangan.toLowerCase().includes(search.toLowerCase()))
-  );
-
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
@@ -168,14 +162,14 @@ export default function Prices() {
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-150">
-              {filteredHarga.length === 0 ? (
+              {harga.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-6 py-8 text-center text-neutral-500 text-sm">
                     Tidak ada acuan harga ditemukan
                   </td>
                 </tr>
               ) : (
-                filteredHarga.map((h) => (
+                harga.map((h) => (
                   <tr key={h.grade} className="hover:bg-zinc-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <span className={`px-2.5 py-1 rounded text-xs font-semibold ${getBgGradeClass(h.grade)}`}>

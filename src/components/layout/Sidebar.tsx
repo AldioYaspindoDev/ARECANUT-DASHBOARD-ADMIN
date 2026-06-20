@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import Logo from '../../assets/Logo2.png';
 import { IoHome, IoLeaf } from "react-icons/io5";
 import { FaUser } from "react-icons/fa6";
-import { FaHistory } from "react-icons/fa";
+import { FaCamera, FaHistory } from "react-icons/fa";
 import { MdLibraryBooks } from "react-icons/md";
 import { FaRupiahSign } from "react-icons/fa6";
 import { IoMdSettings } from "react-icons/io";
@@ -16,6 +16,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const menuItems = [
     { name: 'Dashboard', path: '/', iconClass: IoHome },
     { name: 'Manajemen User', path: '/users', iconClass: FaUser },
+    { name: 'Uji Coba Scanner', path: '/scanner', iconClass: FaCamera },
     { name: 'Data Pinang', path: '/pinang-data', iconClass: IoLeaf },
     { name: 'Riwayat Deteksi', path: '/history', iconClass: FaHistory },
     { name: 'Manajemen Artikel', path: '/articles', iconClass: MdLibraryBooks },
