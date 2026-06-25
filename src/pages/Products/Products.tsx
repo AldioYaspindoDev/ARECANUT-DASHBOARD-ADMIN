@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PinangService } from "../../services/pinangService";
 import { API_BASE_URL } from "../../utils/constants";
+import { FaFileExport } from "react-icons/fa6";
 interface PinangItem {
   id: string;
   user_id: string;
@@ -33,6 +34,35 @@ export default function Products() {
     }
   };
 
+  const handleExportCSV = () => {
+    if (filteredPinang.length === 0) return;
+    const headers = ["ID Pinang", "User ID", "Gambar", "Jenis Pinang", "Kualitas (Grade)", "Persentase", "Tingkat Kekeringan", "Deskripsi", "Waktu"];
+    const rows = filteredPinang.map((item) => [
+      item.id,
+      item.user_id,
+      getImageUrl(item.gambar),
+      item.jenis_pinang,
+      item.kualitas_pinang,
+      item.persentase || "",
+      item.tingkat_kekeringan,
+      item.deskripsi || "",
+      item.created_at,
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((e) => e.map(val => `"${val}"`).join(","))].join("\n");
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `data_pinang_${new Date().toISOString().slice(0,10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  
   const handleDelete = async (pinangId: string) => {
     if (!window.confirm("Apakah Anda yakin ingin menghapus data deteksi pinang ini?")) {
       return;
@@ -97,6 +127,14 @@ export default function Products() {
         <p className="text-neutral-500 text-sm font-normal font-['Inter']">
           Memantau hasil deteksi kualitas biji pinang dari seluruh pengguna sistem.
         </p>
+
+          <button
+          onClick={handleExportCSV}
+          className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
+        >
+          <span className="text-base font-bold"><FaFileExport/></span>
+          <span>Export Data (CSV)</span>
+        </button>
       </div>
 
       {/* Filter Options */}

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import type { Article } from "../../interface/Article"
 import { ArticleService } from "../../services/articleService";
 import { API_BASE_URL } from "../../utils/constants";
+import { Link } from "react-router-dom";
 
 export default function Blogs() {
   
-
     const[blog, setBlog] = useState<Article[]>([]);
     const[loading, setLoading] = useState(false);
 
@@ -39,26 +39,6 @@ export default function Blogs() {
         const cleanPath = path.startsWith("/") ? path.substring(1) : path;
         return `${API_BASE_URL}/${cleanPath}`;
       };
-// const articles = [
-//     {
-//       tag: "Teknik Panen",
-//       title: "5 Rahasia Menjaga Grade A Tetap Stabil",
-//       desc: "Pelajari cara pengolahan pasca panen yang tepat untuk menjaga kadar air dan integritas fisik biji pinang Anda.",
-//       img: "https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=384&auto=format&fit=crop"
-//     },
-//     {
-//       tag: "Pasar",
-//       title: "Analisis Tren Ekspor Pinang 2024",
-//       desc: "Bagaimana permintaan pasar internasional memengaruhi harga domestik di tingkat petani dan koperasi daerah.",
-//       img: "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=384&auto=format&fit=crop"
-//     },
-//     {
-//       tag: "Teknologi",
-//       title: "Memahami Cara Kerja AI PinangCek",
-//       desc: "Mengenal lebih dalam bagaimana Computer Vision mendeteksi kualitas pinang melalui visualisasi pola warna dan tekstur.",
-//       img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=384&auto=format&fit=crop"
-//     }
-//   ];
 
   return (
     <section id="edukasi" className="w-full py-20 bg-white">
@@ -77,7 +57,7 @@ export default function Blogs() {
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {blog.map((item, idx) => (
-            <div key={idx} className="group flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow p-4 rounded-2xl border border-stone-150 bg-white">
+            <Link key={idx} to={`/blog/${item.id}`}  className="group flex flex-col gap-4 shadow-sm hover:shadow-md transition-shadow p-4 rounded-2xl border border-stone-150 bg-white">
               {/* Image wrap */}
               <div className="relative rounded-xl overflow-hidden aspect-video">
                 <img 
@@ -102,7 +82,7 @@ export default function Blogs() {
                   {item.isi}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

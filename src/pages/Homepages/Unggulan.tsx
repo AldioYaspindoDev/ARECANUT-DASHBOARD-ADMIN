@@ -54,7 +54,7 @@ export default function Unggulan() {
               <div className="flex flex-col gap-1">
                 <div className="flex justify-between text-xs font-semibold">
                   <span>Tekstur Biji Pinang</span>
-                  <span className="text-emerald-700">Keras (Padat)</span>
+                  <span className="text-emerald-700">Bulat (Grade A)</span>
                 </div>
                 <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
                   <div className="w-[90%] h-full bg-emerald-700 rounded-full" />
@@ -63,8 +63,8 @@ export default function Unggulan() {
 
               <div className="flex flex-col gap-1">
                 <div className="flex justify-between text-xs font-semibold">
-                  <span>Pola Warna Citra</span>
-                  <span className="text-emerald-700">Coklat Terang (Optimal)</span>
+                  <span>Tingkat Kekeringan</span>
+                  <span className="text-emerald-700">Kering</span>
                 </div>
                 <div className="h-2 bg-stone-100 rounded-full overflow-hidden">
                   <div className="w-[85%] h-full bg-emerald-700 rounded-full" />

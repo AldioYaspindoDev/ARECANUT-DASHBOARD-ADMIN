@@ -3,6 +3,7 @@ import AdminLayout from './components/layout/AdminLayout';
 import ProtectedRoute from './routes/ProtectedRoute';
 import Login from './pages/Autentikasi/login';
 import Blogs from './pages/Blog/Blog';
+import DetailBlogs from './pages/Homepages/DetailBlogs';
 
 // pages
 import Dashboard from './pages/Dashboard/Dashboard';
@@ -21,6 +22,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/blog/:id" element={<DetailBlogs />} />
         {/* Protected Admin Dashboard and Sub-pages */}
         <Route
           path="/*"

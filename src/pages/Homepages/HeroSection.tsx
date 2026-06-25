@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { FaCamera, FaInfoCircle, FaCheckCircle } from "react-icons/fa";
+import Homepage from "../../assets/Homepage.jpeg";
+import Logo from "../../assets/Logo.png";
+
 
 export default function HeroSections() {
   const navigate = useNavigate();
@@ -77,26 +80,20 @@ export default function HeroSections() {
               <div className="flex-1 bg-white flex flex-col overflow-hidden relative">
                 {/* App Header Inside Phone */}
                 <div className="pt-10 pb-3 px-4 border-b border-stone-100 flex justify-between items-center bg-white/95 backdrop-blur-sm z-20">
-                  <span className="text-emerald-900 text-sm font-extrabold tracking-tight">PinangCek AI</span>
-                  <span className="px-2 py-0.5 bg-emerald-50 text-[10px] text-emerald-800 rounded font-semibold border border-emerald-100">Aktif</span>
+                  <span className="text-emerald-900 text-sm font-extrabold tracking-tight">ArecanutGrade AI</span>
+                  <img src={Logo} alt="Logo" className="w-8"/>
                 </div>
 
                 {/* App Main Area Inside Phone */}
                 <div className="flex-1 relative flex flex-col justify-center items-center bg-stone-100">
                   <img 
                     className="w-full h-full object-cover absolute inset-0 filter brightness-95" 
-                    src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=350&auto=format&fit=crop" 
+                    src={Homepage}
                     alt="Areca nut scanning mockup" 
                   />
                   
                   {/* Camera view overlay scanning grid */}
                   <div className="absolute inset-0 bg-black/10 z-10" />
-                  <div className="absolute w-44 h-44 border-2 border-dashed border-emerald-400 rounded-2xl z-20 animate-pulse flex items-center justify-center">
-                    <div className="w-4 h-4 border-t-2 border-l-2 border-emerald-400 absolute top-0 left-0" />
-                    <div className="w-4 h-4 border-t-2 border-r-2 border-emerald-400 absolute top-0 right-0" />
-                    <div className="w-4 h-4 border-b-2 border-l-2 border-emerald-400 absolute bottom-0 left-0" />
-                    <div className="w-4 h-4 border-b-2 border-r-2 border-emerald-400 absolute bottom-0 right-0" />
-                  </div>
 
                   {/* Result Overlay Card Inside Phone */}
                   <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md rounded-2xl p-4 shadow-xl z-20 border border-white/20 flex flex-col gap-2.5">

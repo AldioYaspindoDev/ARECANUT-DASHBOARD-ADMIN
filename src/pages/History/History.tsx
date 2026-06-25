@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { HistoryService } from "../../services/historyService";
 import { FaSearch } from "react-icons/fa";
-import { FaFileExport } from "react-icons/fa6";
+
 
 interface HistoryData {
   id: string;
@@ -67,34 +67,6 @@ export default function History() {
     (item.lokasi && item.lokasi.toLowerCase().includes(search.toLowerCase()))
   );
 
-  const handleExportCSV = () => {
-    if (filteredHistory.length === 0) return;
-    const headers = ["ID History", "User ID", "Pinang ID", "Grade", "Harga per KG", "Lokasi", "Perangkat", "Catatan", "Waktu"];
-    const rows = filteredHistory.map((item) => [
-      item.id,
-      item.user_id,
-      item.pinang_id,
-      item.grade,
-      item.harga_per_kg,
-      item.lokasi || "",
-      item.perangkat || "",
-      item.catatan || "",
-      item.created_at,
-    ]);
-
-    const csvContent =
-      "data:text/csv;charset=utf-8," +
-      [headers.join(","), ...rows.map((e) => e.map(val => `"${val}"`).join(","))].join("\n");
-    
-    const encodedUri = encodeURI(csvContent);
-    const link = document.createElement("a");
-    link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `riwayat_deteksi_${new Date().toISOString().slice(0,10)}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   if (loading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
@@ -111,13 +83,6 @@ export default function History() {
           <h1 className="text-zinc-900 text-3xl font-semibold font-['Inter'] leading-9">Riwayat Deteksi Global</h1>
           <p className="text-neutral-500 text-sm font-normal font-['Inter'] mt-1">Pantau log aktivitas klasifikasi kualitas pinang dari seluruh pengguna terdaftar.</p>
         </div>
-        <button
-          onClick={handleExportCSV}
-          className="px-5 py-2.5 bg-[#572B18] hover:bg-[#3D1E11] text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-2 transition-colors cursor-pointer"
-        >
-          <span className="text-base font-bold"><FaFileExport/></span>
-          <span>Export Data (CSV)</span>
-        </button>
       </div>
 
       {/* Filter / Search section */}

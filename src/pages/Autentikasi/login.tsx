@@ -57,7 +57,7 @@ export default function Login() {
             localStorage.setItem('token', response.access_token);
             
             // Arahkan ke halaman utama/dashboard admin
-            window.location.href = '/';
+            window.location.href = '/dashboard';
         } catch (error: any) {
             console.error(error);
             setErrorMsg(error.response?.data?.detail || error.response?.data?.message || 'Email atau kata sandi salah. Silakan coba lagi.');

@@ -1,9 +1,9 @@
 export default function ScrollComponents() {
   const stats = [
-    "Koperasi Tani Makmur: Cek 500+ kg/hari",
-    "Efisiensi Waktu Inspeksi +75%",
-    "Digunakan 2.000+ Petani di Jambi & Riau",
-    "Akurasi Lab-Grade 95%+",
+    "Digunakan Banyak Koperasi",
+    "Efisiensi Waktu Inspeksi",
+    "Cocok digunakan di Wilayah Sumatera",
+    "Akurasi Lab-Grade 90%+",
     "Analisis Cepat & Objektif < 5 Detik"
   ];
 
