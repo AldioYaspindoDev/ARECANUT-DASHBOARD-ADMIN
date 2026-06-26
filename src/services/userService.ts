@@ -3,12 +3,12 @@ import { api } from "./api";
 export const UserService = {
   GetAllUser: async (skip: number = 0, limit: number = 100) => {
     const token = localStorage.getItem("token");
-    const endpoint = token ? "api/admin/getuser/" : "api/user/all/";
+    const endpoint = token ? "api/admin/getuser" : "api/user/all";
     return await api.get(endpoint, { params: { skip, limit } });
   },
 
   getCurrentUser: async () => {
-    return await api.get("api/user/me/");
+    return await api.get("api/user/me");
   },
 
   PromoteUser: async (userId: string) => {
