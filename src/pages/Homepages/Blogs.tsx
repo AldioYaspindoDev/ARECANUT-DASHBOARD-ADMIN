@@ -13,7 +13,7 @@ export default function Blogs() {
       setLoading(true)
       try {
         const response = await ArticleService.GetAllService()
-        setBlog(response);
+        setBlog(Array.isArray(response) ? response : response.items ?? response.data ?? []);
       } catch (error) {
         console.error("gagal mendapatkan data article", error);
       } finally {
