@@ -2,7 +2,7 @@ import { api } from "./api";
 
 export const HargaService = {
   GetAllHarga: async (skip: number = 0, limit: number = 100) => {
-    return await api.get("api/harga", { params: { skip, limit } });
+    return await api.get("api/harga/", { params: { skip, limit } });
   },
 
   GetHargaByGrade: async (grade: string) => {

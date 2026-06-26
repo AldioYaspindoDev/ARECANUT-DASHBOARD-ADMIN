@@ -2,7 +2,7 @@ import { api } from "./api";
 
 export const PinangService = {
   CreatePinang: async (formData: FormData) => {
-    const response = await api.post("api/pinang", formData, {
+    const response = await api.post("api/pinang/", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -11,7 +11,7 @@ export const PinangService = {
   },
 
   GetAllPinang: async (skip: number = 0, limit: number = 100) => {
-    const response = await api.get("api/pinang", {
+    const response = await api.get("api/pinang/", {
       params: { skip, limit },
     });
     return response.data;

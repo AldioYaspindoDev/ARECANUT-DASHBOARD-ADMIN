@@ -2,7 +2,7 @@ import { api } from "./api";
 
 export const ArticleService = {
   GetAllService: async (skip: number = 0, limit: number = 100) => {
-    return await api.get("api/article", { params: { skip, limit } });
+    return await api.get("api/article/", { params: { skip, limit } });
   },
 
   GetByIdService: async (articleId: string) => {
