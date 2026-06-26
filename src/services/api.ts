@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL } from "../utils/constants";
 
 export const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
+  baseURL: API_BASE_URL,
 }) as any; // cast to any so response interceptor returning response.data works seamlessly
 
 api.interceptors.request.use((config: any) => {
