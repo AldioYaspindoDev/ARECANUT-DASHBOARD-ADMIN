@@ -36,7 +36,7 @@ export default function HeroSections() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mt-2">
               <button
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/scan")}
                 className="px-8 py-3.5 bg-emerald-900 hover:bg-emerald-950 text-white text-sm font-semibold rounded-xl shadow-lg transition-all duration-200 hover:shadow-xl flex items-center justify-center gap-2.5 cursor-pointer"
               >
                 <FaCamera className="text-base" />

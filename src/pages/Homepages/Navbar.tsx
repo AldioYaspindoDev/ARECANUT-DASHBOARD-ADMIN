@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../../assets/Logo2.png";
+import { FaDownload } from "react-icons/fa";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -27,10 +28,12 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
+          <a href="/">
           <div className="flex items-center gap-3">
             <img src={Logo} alt="PinangCek Logo" className="h-10 w-auto object-contain" />
             <span className="text-emerald-950 text-xl font-bold tracking-tight">ArecaNut Grade AI</span>
           </div>
+          </a>
 
           {/* Menu Links - Desktop */}
           <div className="hidden md:flex items-center gap-8">
@@ -84,12 +87,14 @@ export default function Navbar() {
             <Link to="/login" className="text-emerald-900 hover:text-emerald-955 text-sm font-semibold transition-colors px-4 py-2">
               Login Admin
             </Link>
-            <button
-              onClick={() => navigate("/login")}
-              className="px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-sm font-semibold rounded-xl shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer"
+            <a
+              href="/ArecaNutGradeAI.apk"
+              download="ArecaNutGradeAI.apk"
+              className="flex items-center px-5 py-2.5 bg-emerald-900 hover:bg-emerald-950 text-white text-sm font-semibold rounded-xl shadow-md transition-all duration-200 hover:shadow-lg cursor-pointer"
             >
-              Uji Coba Scanner
-            </button>
+              <span className="me-3"><FaDownload/></span>
+              Download Aplikasi
+            </a>
           </div>
         </div>
       </div>

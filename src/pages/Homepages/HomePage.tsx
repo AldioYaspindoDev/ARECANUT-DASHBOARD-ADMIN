@@ -5,10 +5,11 @@ import Unggulan from "./Unggulan";
 import HargaTerkini from "./HargaTerkini";
 import Blogs from "./Blogs";
 import Components8 from "./Components8";
-import Components10 from "./Components10";
+import Footer from "./Footer";
 import Components9 from "./Components9";
 import ScrollComponents from "./ScrolComponents";
 import Tantangan from "./Tantangan";
+import Classification from "./Classification";
 
 export default function HomePage() {
   return (
@@ -17,12 +18,13 @@ export default function HomePage() {
       <HeroSections />
       <ScrollComponents />
       <Tantangan />
+      <Classification />
       <HowWorks />
       <Unggulan />
       <HargaTerkini />
       <Blogs />
       <Components8 />
-      <Components10 />
+      <Footer />
       <Components9 />
     </div>
   );

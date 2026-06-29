@@ -63,9 +63,18 @@ export default function HargaTerkini() {
             return (
               <div key={item.id} className={`p-8 bg-white rounded-2xl shadow-sm border ${borderClass} flex flex-col justify-between gap-6 hover:shadow-md transition-shadow relative overflow-hidden`}>
                 <div className="flex flex-col gap-4">
-                  <span className={`px-3 py-1 text-xs font-bold rounded-full w-fit border ${badgeClass}`}>
-                   Grade {item.grade}
-                  </span>
+                  <div className="flex justify-between items-center w-full">
+                    <span className={`px-3 py-1 text-xs font-bold rounded-full w-fit border ${badgeClass}`}>
+                      Grade {item.grade}
+                    </span>
+                    <div className="px-2.5 py-1 bg-red-600 text-white rounded-full text-xs font-bold flex items-center gap-1.5 shadow-sm">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                      </span>
+                      <span>Live Harga</span>
+                    </div>
+                  </div>
                   
                   <div className="flex flex-col gap-1.5">
                     <span className="text-neutral-500 text-xs uppercase tracking-wider font-semibold">Harga per KG</span>

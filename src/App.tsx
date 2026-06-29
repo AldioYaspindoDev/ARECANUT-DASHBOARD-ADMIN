@@ -14,6 +14,7 @@ import Prices from './pages/Prices/Prices';
 import Settings from './pages/Settings/Settings';
 import Scanner from './pages/Scanner/Scanner';
 import HomePage from './pages/Homepages/HomePage';
+import ScannerPublic from './pages/ScanPublic/ScanPublic';
 
 
 export default function App() {
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/blog/:id" element={<DetailBlogs />} />
+        <Route path="/scan" element={<ScannerPublic />} />
         {/* Protected Admin Dashboard and Sub-pages */}
         <Route
           path="/*"

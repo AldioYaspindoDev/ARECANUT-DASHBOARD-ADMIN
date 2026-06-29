@@ -1,5 +1,6 @@
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import Logo from "../../assets/Logo3.png"
+import { FaWhatsapp } from "react-icons/fa6";
 
 export default function Components9() {
   return (
@@ -14,10 +15,10 @@ export default function Components9() {
               Solusi AI pertama di Indonesia untuk grading pinang otomatis yang objektif dan presisi, meningkatkan transparansi pasar.
             </p>
             <div className="flex items-center gap-3 mt-2">
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-emerald-500/20 transition-colors">
-                <FaFacebook />
+              <a href="https://wa.me/6285183200450" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-emerald-500/20 transition-colors">
+                <FaWhatsapp />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-emerald-500/20 transition-colors">
+              <a href="https://www.instagram.com/way.dev/?hl=en" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-white hover:bg-emerald-500/20 transition-colors">
                 <FaInstagram />
               </a>
             </div>
